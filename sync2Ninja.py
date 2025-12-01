@@ -1,4 +1,3 @@
-
 #!/usr/bin/env python3
 # sync2Ninja.py
 # Main orchestrator for Huntress + Axcient → NinjaOne
