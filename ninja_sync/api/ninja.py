@@ -18,11 +18,11 @@ import requests
 
 from ..core.logging import log, warn, error
 from ..cache import load_cache, save_cache
-from ..config import (
+from ..core.config import (
     NINJA_BASE_URL,
     NINJA_CACHE_PATH,
 )
-from ..secrets import (
+from ..core.secrets import (
     NINJA_CLIENT_ID,
     NINJA_CLIENT_SECRET,
 )

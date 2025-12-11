@@ -13,12 +13,12 @@ Implements:
 """
 
 from ..core.logging import log, warn, error
-from ..config import (
+from ..core.config import (
     AXCIENT_BASE_URL,
     AXCIENT_CACHE_PATH_DEVICES,
     AXCIENT_PAGE_SIZE,
 )
-from ..secrets import AXCIENT_API_KEY
+from ..core.secrets import AXCIENT_API_KEY
 from .base_api import api_get_json
 from ..cache import load_cache, save_cache
 

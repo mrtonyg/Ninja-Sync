@@ -18,13 +18,13 @@ import base64
 import requests
 
 from ..core.logging import log, warn, error
-from ..config import (
+from ..core.config import (
     NINJA_BASE_URL,
     NINJA_TOKEN_CACHE_PATH,
     NINJA_DEVICE_CACHE_PATH,
     NINJA_DEVICE_CACHE_TTL,
 )
-from ..secrets import (
+from ..core.secrets import (
     NINJA_CLIENT_ID,
     NINJA_CLIENT_SECRET,
 )

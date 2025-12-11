@@ -15,11 +15,11 @@ import requests
 
 from ..core.logging import log, warn, error
 from ..cache import load_cache, save_cache
-from ..config import (
+from ..core.config import (
     AXCIENT_BASE_URL,
     AXCIENT_CACHE_PATH,
 )
-from ..secrets import AXCIENT_API_KEY
+from ..core.secrets import AXCIENT_API_KEY
 
 
 # ===============================================================

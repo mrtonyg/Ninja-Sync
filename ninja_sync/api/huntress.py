@@ -16,12 +16,12 @@ import base64
 import requests
 
 from ..core.logging import log, warn, error
-from ..config import (
+from ..core.config import (
     HUNTRESS_BASE_URL,
     HUNTRESS_CACHE_PATH_AGENTS,
     HUNTRESS_CACHE_PATH_ORGS,
 )
-from ..secrets import (
+from ..core.secrets import (
     HUNTRESS_PUBLIC_KEY,
     HUNTRESS_PRIVATE_KEY,
 )
