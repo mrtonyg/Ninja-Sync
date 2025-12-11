@@ -1,93 +1,68 @@
 """
-sync2Ninja.py
-Version: 2.0.3
+sync2Ninja Main Program
 Author: Anthony George
-
-Syncs Huntress + Axcient → NinjaOne custom fields.
+Version: 2.0.5
 """
 
-from mm_sync.utils import log
-from mm_sync.huntress import preflight_huntress, pull_huntress
-from mm_sync.axcient import preflight_axcient, pull_axcient
-from mm_sync.ninja_api import preflight_ninja, pull_ninja_devices, update_custom_field
-from mm_sync.matching import find_device_match
-from mm_sync.html_builder import build_huntress_section, build_axcient_section
+from utils import log, warn, error
+from huntress import pull_huntress, preflight_huntress
+from axcient import pull_axcient, preflight_axcient
+from ninja_api import pull_ninja_devices, ninja_update_field, preflight_ninja
+from matching import match_huntress_to_ninja, match_axcient_to_ninja
+from html_builder import build_huntress_html, build_axcient_html
+from config import NINJA_FIELD_HUNTRESS, NINJA_FIELD_AXCIENT
 
-
-# -------------------------------------------------------------------------
-# PRE-FLIGHT
-# -------------------------------------------------------------------------
-def preflight_all():
+def run_preflight():
     log("Running preflight checks...")
 
-    ok = True
-    if not preflight_huntress():
-        ok = False
-    if not preflight_ninja():
-        ok = False
-    if not preflight_axcient():
-        ok = False
+    ok_h = preflight_huntress()
+    if not ok_h:
+        warn("Huntress preflight failed (soft)")
 
-    if not ok:
-        log("One or more preflight checks failed (soft). Continuing...", "WARN")
+    ok_n = preflight_ninja()
+    if not ok_n:
+        warn("NinjaOne preflight failed (soft)")
 
-    log("Preflight completed.")
+    ok_a = preflight_axcient()
+    if not ok_a:
+        warn("Axcient preflight failed (soft)")
 
+    if ok_h and ok_n and ok_a:
+        log("All preflight checks OK")
+    else:
+        warn("One or more preflight checks failed (soft). Continuing...")
 
-# -------------------------------------------------------------------------
-# MAIN
-# -------------------------------------------------------------------------
 def main():
-    log("[START] sync2Ninja 2.0.3")
+    log("[START] sync2Ninja 2.0.5")
 
-    preflight_all()
+    run_preflight()
 
-    # Huntress
-    h_data = pull_huntress()
-    agents = h_data["agents"]
-    orgs = h_data["orgs"]
+    agents, orgs = pull_huntress()
+    ninja = pull_ninja_devices()
+    axcient = pull_axcient()
 
-    # Axcient
-    axcient_data = pull_axcient()
-
-    # Ninja
-    ninja_devices = pull_ninja_devices()
-
-    # --------------------------------------------------------------
-    # HUNTRESS SYNC
-    # --------------------------------------------------------------
+    log("Processing Huntress...")
     for agent in agents:
-        hostname = agent.get("hostname", "").lower()
         org_name = orgs.get(agent.get("organization_id"), "Unknown")
-
-        match = find_device_match(hostname, ninja_devices)
-        if not match:
+        ninja_dev = match_huntress_to_ninja(agent, ninja)
+        if not ninja_dev:
             continue
 
-        ninja_id = match["id"]
-        html = build_huntress_section(agent, org_name)
+        device_id = ninja_dev["id"]
+        html, text = build_huntress_html(agent, org_name)
+        ninja_update_field(device_id, NINJA_FIELD_HUNTRESS, html, text)
 
-        if update_custom_field(ninja_id, {"huntressStatus": html}):
-            log(f"Updated huntressStatus for {hostname} → {ninja_id}", "OK")
-
-    # --------------------------------------------------------------
-    # AXCIENT SYNC
-    # --------------------------------------------------------------
-    for dev in axcient_data:
-        name = dev.get("name", "").lower()
-        match = find_device_match(name, ninja_devices)
-
-        if not match:
+    log("Processing Axcient...")
+    for device in axcient:
+        ninja_dev = match_axcient_to_ninja(device, ninja)
+        if not ninja_dev:
             continue
 
-        ninja_id = match["id"]
-        html = build_axcient_section(dev)
+        device_id = ninja_dev["id"]
+        html, text = build_axcient_html(device)
+        ninja_update_field(device_id, NINJA_FIELD_AXCIENT, html, text)
 
-        if update_custom_field(ninja_id, {"backupStatus": html}):
-            log(f"Updated backupStatus for {name} → {ninja_id}", "OK")
-
-    log("[DONE] sync2Ninja complete.")
-
+    log("[DONE] Sync complete")
 
 if __name__ == "__main__":
     main()

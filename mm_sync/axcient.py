@@ -1,61 +1,57 @@
 """
-axcient.py
-Version: 2.0.1
+Axcient API
 Author: Anthony George
+Version: 2.0.5
 """
 
-from mm_sync.utils import log, load_cache, save_cache, http_get
-from mm_sync.config import ENDPOINTS, AXCIENT_CACHE, CACHE_TTL
-from mm_sync import secrets
+import requests
+import datetime
+from utils import log, error, warn, load_cache, save_cache, cache_valid
+from secrets import AXCIENT_API_KEY
+from config import AXCIENT_BASE_URL, CACHE_PATH, CACHE_TTL_AXCIENT, FORCE_EXPIRE_AXCIENT
 
+CACHE_FILE = f"{CACHE_PATH}/axcient.json"
 
-BASE = ENDPOINTS["axcient"]["base"]
+def axcient_get(params):
+    headers = {"X-Api-Key": AXCIENT_API_KEY}
+    url = f"{AXCIENT_BASE_URL}/device"
+    resp = requests.get(url, headers=headers, params=params)
+    if resp.status_code != 200:
+        error(f"Axcient GET failed: {resp.status_code} {resp.text}")
+        return None
+    return resp.json()
 
-
-# -------------------------------------------------------------------------
-# Preflight Check
-# -------------------------------------------------------------------------
-def preflight_axcient():
-    url = f"{BASE}{ENDPOINTS['axcient']['devices']}"
-    r = http_get(url, headers={"X-Api-Key": secrets.AXCIENT_API_KEY}, soft=True)
-    if r is None:
-        log("Axcient preflight failed (soft)", "WARN")
-        return False
-    log("Axcient preflight OK")
-    return True
-
-
-# -------------------------------------------------------------------------
-# Paginated fetch
-# -------------------------------------------------------------------------
 def pull_axcient():
-    cached = load_cache(AXCIENT_CACHE, CACHE_TTL["axcient"])
-    if cached:
+    if FORCE_EXPIRE_AXCIENT:
+        cache = None
+    else:
+        cache = load_cache(CACHE_FILE)
+
+    if cache_valid(cache, CACHE_TTL_AXCIENT):
         log("Using cached Axcient data")
-        return cached
+        return cache["devices"]
 
     log("Fetching Axcient devices (paginated)...")
-
     devices = []
-    limit = 100
     offset = 0
+    limit = 50
 
     while True:
-        url = f"{BASE}{ENDPOINTS['axcient']['devices']}"
-        r = http_get(url, headers={"X-Api-Key": secrets.AXCIENT_API_KEY},
-                     params={"limit": limit, "offset": offset})
-        if r is None:
+        data = axcient_get({"limit": limit, "offset": offset})
+        if not isinstance(data, list):
             break
-
-        batch = r.json()
-        if not isinstance(batch, list):
+        devices.extend(data)
+        if len(data) < limit:
             break
-
-        devices.extend(batch)
-        if len(batch) < limit:
-            break
-
         offset += limit
 
-    save_cache(AXCIENT_CACHE, devices)
+    save_cache(CACHE_FILE, {
+        "_timestamp": datetime.datetime.utcnow().isoformat(),
+        "devices": devices
+    })
+
     return devices
+
+def preflight_axcient():
+    test = axcient_get({"limit": 1, "offset": 0})
+    return isinstance(test, list)

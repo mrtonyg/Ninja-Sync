@@ -1,141 +1,105 @@
 """
-ninja_api.py
-Version: 2.0.5
+NinjaOne API
 Author: Anthony George
-
-Handles NinjaOne OAuth2, device inventory, and WYSIWYG custom field updates.
+Version: 2.0.5
 """
 
-import time
 import requests
+import datetime
+from utils import log, warn, error, load_cache, save_cache, cache_valid, strip_html
+from secrets import NINJA_CLIENT_ID, NINJA_CLIENT_SECRET, NINJA_SCOPE
+from config import CACHE_PATH, CACHE_TTL_NINJA, FORCE_EXPIRE_NINJA, NINJA_BASE_URL
 
-from mm_sync.utils import log, strip_html, load_cache, save_cache
-from mm_sync.config import ENDPOINTS, NINJA_CACHE, CACHE_TTL
-from mm_sync import secrets
+CACHE_FILE = f"{CACHE_PATH}/ninja_devices.json"
+TOKEN_CACHE = f"{CACHE_PATH}/ninja_token.json"
 
+# ------------------------------
+# OAuth Token
+# ------------------------------
+def ninja_get_token():
+    cache = load_cache(TOKEN_CACHE)
+    if cache_valid(cache, 3000):
+        return cache["access_token"]
 
-TOKEN_CACHE = {
-    "token": None,
-    "expires": 0,
-}
-
-
-# -------------------------------------------------------------------------
-# INTERNAL: Get OAuth Token
-# -------------------------------------------------------------------------
-def _fetch_token():
-    url = ENDPOINTS["ninja"]["auth"]
-
+    url = f"{NINJA_BASE_URL}/oauth/token"
     payload = {
         "grant_type": "client_credentials",
-        "client_id": secrets.NINJA_CLIENT_ID,
-        "client_secret": secrets.NINJA_CLIENT_SECRET,
-        "scope": "monitoring management control",
+        "client_id": NINJA_CLIENT_ID,
+        "client_secret": NINJA_CLIENT_SECRET,
+        "scope": NINJA_SCOPE
     }
 
-    try:
-        r = requests.post(url, data=payload, timeout=20)
-
-        if not r.ok:
-            log(f"Ninja token error: {r.status_code} {r.text}", "ERROR")
-            return None
-
-        data = r.json()
-        TOKEN_CACHE["token"] = data["access_token"]
-        TOKEN_CACHE["expires"] = time.time() + data.get("expires_in", 3600) - 30
-        return TOKEN_CACHE["token"]
-
-    except Exception as ex:
-        log(f"Ninja token exception: {ex}", "ERROR")
+    resp = requests.post(url, data=payload)
+    if resp.status_code != 200:
+        error(f"Ninja token error: {resp.status_code} {resp.text}")
         return None
 
-
-def ninja_token():
-    if TOKEN_CACHE["token"] and time.time() < TOKEN_CACHE["expires"]:
-        return TOKEN_CACHE["token"]
-    return _fetch_token()
-
-
-# -------------------------------------------------------------------------
-# PRE-FLIGHT
-# -------------------------------------------------------------------------
-def preflight_ninja():
-    if ninja_token():
-        log("Ninja preflight OK")
-        return True
-    log("Ninja preflight failed (soft)", "WARN")
-    return False
+    token = resp.json().get("access_token")
+    save_cache(TOKEN_CACHE, {
+        "_timestamp": datetime.datetime.utcnow().isoformat(),
+        "access_token": token
+    })
+    return token
 
 
-# -------------------------------------------------------------------------
-# DEVICE INVENTORY
-# -------------------------------------------------------------------------
-def pull_ninja_devices():
-    cached = load_cache(NINJA_CACHE, CACHE_TTL["ninja"])
-    if cached:
-        log("Using cached NinjaOne devices")
-        return cached
-
-    token = ninja_token()
-    if not token:
-        log("Ninja devices fetch error: cannot obtain token", "ERROR")
-        return []
-
-    url = ENDPOINTS["ninja"]["devices"]
-
-    r = requests.get(url, headers={"Authorization": f"Bearer {token}"}, timeout=20)
-
-    if not r.ok:
-        log("Ninja devices fetch error", "ERROR")
-        log(f"  URL: {url}", "ERROR")
-        log(f"  HTTP Status: {r.status_code}", "ERROR")
-        log(f"  Response: {r.text}", "ERROR")
-        return []
-
-    devices = r.json()
-    save_cache(NINJA_CACHE, devices)
-    return devices
-
-
-# -------------------------------------------------------------------------
-# CUSTOM FIELD UPDATE (WYSIWYG FIX)
-# -------------------------------------------------------------------------
-def update_custom_field(device_id, field_name, html_value, src_name=None, ninja_name=None):
-    """
-    Updates a NinjaOne custom field that supports WYSIWYG HTML content.
-    Automatically supplies both 'text' and 'html' payloads.
-    """
-
-    token = ninja_token()
-    if not token:
-        return False
-
-    url = ENDPOINTS["ninja"]["custom_fields"].format(id=device_id)
-
-    payload = {
-        field_name: {
-            "text": strip_html(html_value) or "",
-            "html": html_value or ""
-        }
-    }
-
-    headers = {
+def headers():
+    token = ninja_get_token()
+    return {
         "Authorization": f"Bearer {token}",
         "Content-Type": "application/json"
     }
 
-    r = requests.patch(url, json=payload, headers=headers, timeout=20)
+# ------------------------------
+# Load devices
+# ------------------------------
+def pull_ninja_devices():
+    if FORCE_EXPIRE_NINJA:
+        cache = None
+    else:
+        cache = load_cache(CACHE_FILE)
 
-    if not r.ok:
-        log("Failed updating WYSIWYG custom field", "ERROR")
-        log(f"  URL: {url}", "ERROR")
-        log(f"  Payload: {payload}", "ERROR")
-        log(f"  HTTP Status: {r.status_code}", "ERROR")
-        log(f"  Response Body: {r.text}", "ERROR")
+    if cache_valid(cache, CACHE_TTL_NINJA):
+        log("Using cached NinjaOne devices")
+        return cache["devices"]
+
+    url = f"{NINJA_BASE_URL}/v2/devices"
+    resp = requests.get(url, headers=headers())
+
+    if resp.status_code != 200:
+        error(f"Ninja devices fetch error: {resp.status_code} {resp.text}")
+        return []
+
+    devices = resp.json()
+    save_cache(CACHE_FILE, {
+        "_timestamp": datetime.datetime.utcnow().isoformat(),
+        "devices": devices
+    })
+
+    return devices
+
+
+# ------------------------------
+# Update custom field
+# ------------------------------
+def ninja_update_field(device_id, field_name, html, text):
+    url = f"{NINJA_BASE_URL}/v2/device/{device_id}/custom-fields"
+
+    payload = {
+        field_name: {
+            "text": text,
+            "html": html
+        }
+    }
+
+    resp = requests.patch(url, headers=headers(), json=payload)
+    if resp.status_code not in (200, 204):
+        error(f"Failed updating custom field {field_name} on {device_id}")
+        error(resp.text)
         return False
 
-    pretty_src = src_name or "?"
-    pretty_ninja = ninja_name or field_name
-    log(f"[OK] Updated {field_name} from {pretty_src} → {pretty_ninja} (device {device_id})")
-
+    log(f"[OK] Updated {field_name} on {device_id}")
     return True
+
+
+def preflight_ninja():
+    return ninja_get_token() is not None

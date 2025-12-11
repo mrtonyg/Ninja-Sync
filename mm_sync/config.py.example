@@ -1,36 +1,40 @@
 """
-config.py.example
-Configuration template for sync2Ninja.
-Copy to config.py and modify your values.
+MM-Sync Configuration File (example)
+Author: Anthony George
+Version: 2.0.5
 """
 
-# Cache directories
-CACHE_DIR = "./mm-sync-cache"
-HUNTRESS_CACHE = f"{CACHE_DIR}/huntress.json"
-NINJA_CACHE = f"{CACHE_DIR}/ninja_devices.json"
-AXCIENT_CACHE = f"{CACHE_DIR}/axcient.json"
+# -----------------------------
+# LOGGING / CACHE DIRECTORIES
+# -----------------------------
+LOG_PATH = "./logs"
+CACHE_PATH = "./cache"
 
-# Cache TTLs (seconds)
-CACHE_TTL = {
-    "huntress": 1800,
-    "ninja": 1800,
-    "axcient": 1800,
-}
+# -----------------------------
+# CACHE TTL (SECONDS)
+# -----------------------------
+CACHE_TTL_HUNTRESS = 1800
+CACHE_TTL_NINJA = 1800
+CACHE_TTL_AXCIENT = 1800
 
-# API Endpoints — corrected Huntress base URL
-ENDPOINTS = {
-    "huntress": {
-        "base": "https://api.huntress.io/v1",   # FIXED
-        "agents": "/agents",
-        "orgs": "/organizations",
-    },
-    "ninja": {
-        "auth": "https://api.ninjarmm.com/oauth/token",
-        "devices": "https://api.ninjarmm.com/v2/devices",
-        "custom_fields": "https://api.ninjarmm.com/v2/devices/{id}/custom-fields",
-    },
-    "axcient": {
-        "base": "https://axapi.axcient.com/x360recover",
-        "devices": "/device",
-    }
-}
+# -----------------------------
+# FORCE CACHE EXPIRATION
+# (set True to purge all cache on run)
+# -----------------------------
+FORCE_EXPIRE_HUNTRESS = False
+FORCE_EXPIRE_NINJA = False
+FORCE_EXPIRE_AXCIENT = False
+
+# -----------------------------
+# API ENDPOINTS
+# -----------------------------
+HUNTRESS_BASE_URL = "https://api.huntress.io/api/v1"
+NINJA_BASE_URL = "https://api.ninjarmm.com"
+AXCIENT_BASE_URL = "https://axapi.axcient.com/x360recover"
+
+# -----------------------------
+# CUSTOM FIELD NAMES
+# -----------------------------
+NINJA_FIELD_HUNTRESS = "huntressStatus"
+NINJA_FIELD_AXCIENT = "backupStatus"
+
