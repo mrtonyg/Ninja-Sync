@@ -1,89 +1,168 @@
 """
-Huntress API
-Author: Anthony George
+Huntress API Client
 Version: 2.0.7
+Author: Anthony George
+
+Implements:
+ - Correct Base64 Basic Auth using public/private key pair
+ - Paginated fetch for agents and organizations
+ - Safe error handling
+ - Soft-fail compatible behavior
 """
 
-import requests
-import datetime
 import base64
+import requests
+from typing import Dict, Any, List, Optional
 
-from mm_sync.utils import log, warn, error, load_cache, save_cache, cache_valid
-from mm_sync.secrets import HUNTRESS_KEY, HUNTRESS_SECRET
-from mm_sync.config import CACHE_PATH, CACHE_TTL_HUNTRESS, HUNTRESS_BASE_URL, FORCE_EXPIRE_HUNTRESS
+from mm_sync.config import (
+    HUNTRESS_BASE_URL,
+    HUNTRESS_CACHE_PATH_AGENTS,
+    HUNTRESS_CACHE_PATH_ORGS,
+    CACHE_TTL_HUNTRESS,
+)
 
-CACHE_FILE = f"{CACHE_PATH}/huntress.json"
+from mm_sync.secrets import (
+    HUNTRESS_PUBLIC_KEY,
+    HUNTRESS_PRIVATE_KEY,
+)
 
-def make_huntress_auth():
-    """Return proper Basic Auth header value for Huntress."""
-    raw = f"{HUNTRESS_KEY}:{HUNTRESS_SECRET}".encode("utf-8")
-    return base64.b64encode(raw).decode("utf-8")
+from mm_sync.utils import (
+    log, warn, error,
+    load_cache, save_cache,
+)
 
-def huntress_get(endpoint, params=None):
-    """Perform authenticated Huntress GET request."""
-    auth = make_huntress_auth()
-    headers = {
-        "Authorization": f"Basic {auth}",
-        "Accept": "application/json"
+
+# ----------------------------------------------------------------------
+# AUTH HEADERS
+# ----------------------------------------------------------------------
+
+def huntress_headers() -> Dict[str, str]:
+    """
+    Generates Huntress Basic Auth header:
+        Authorization: Basic base64(public:private)
+    """
+    raw = f"{HUNTRESS_PUBLIC_KEY}:{HUNTRESS_PRIVATE_KEY}"
+    token = base64.b64encode(raw.encode()).decode()
+
+    return {
+        "Authorization": f"Basic {token}",
+        "Accept": "application/json",
     }
+
+
+# ----------------------------------------------------------------------
+# RAW GET (with logging)
+# ----------------------------------------------------------------------
+
+def huntress_get(endpoint: str, params: Optional[Dict[str, Any]] = None) -> Optional[Dict[str, Any]]:
+    """Perform GET against Huntress API, returning JSON or None."""
     url = f"{HUNTRESS_BASE_URL}{endpoint}"
 
-    resp = requests.get(url, headers=headers, params=params or {})
+    try:
+        resp = requests.get(url, headers=huntress_headers(), params=params)
+    except Exception as ex:
+        error(f"Huntress network error {url}: {ex}")
+        return None
 
     if resp.status_code != 200:
         error(f"Huntress GET failed {url}: {resp.status_code} {resp.text}")
         return None
 
-    return resp.json()
+    try:
+        return resp.json()
+    except Exception as ex:
+        error(f"Huntress response JSON decode failed {url}: {ex}")
+        return None
 
-def pull_huntress():
-    """Load agents + orgs from cache or API."""
-    cache = None if FORCE_EXPIRE_HUNTRESS else load_cache(CACHE_FILE)
 
-    if cache_valid(cache, CACHE_TTL_HUNTRESS):
-        log("Using cached Huntress data")
-        return cache["agents"], cache["orgs"]
+# ----------------------------------------------------------------------
+# PAGINATION HELPERS
+# ----------------------------------------------------------------------
+
+def fetch_paginated(endpoint: str) -> List[Dict[str, Any]]:
+    """
+    Fetches paginated Huntress lists (agents, organizations).
+    Huntress uses:
+        page=<n>
+    """
+    results = []
+    page = 1
+
+    while True:
+        data = huntress_get(endpoint, params={"page": page})
+        if not data:
+            break
+
+        items = data.get("data") or data.get("results") or data.get("agents") or data.get("organizations")
+        if not items:
+            break
+
+        results.extend(items)
+
+        # Huntress returns "next" field OR no indication when pages exhausted.
+        meta = data.get("meta", {})
+        if not meta:
+            # fallback: stop if fewer than 100 items
+            if len(items) < 100:
+                break
+        else:
+            if not meta.get("next"):
+                break
+
+        page += 1
+
+    return results
+
+
+# ----------------------------------------------------------------------
+# FETCH AGENTS & ORGS (WITH CACHING)
+# ----------------------------------------------------------------------
+
+def get_huntress_agents(force_refresh: bool = False) -> Optional[List[Dict[str, Any]]]:
+    """Loads Huntress agents with caching."""
+    if not force_refresh:
+        cached = load_cache(HUNTRESS_CACHE_PATH_AGENTS, CACHE_TTL_HUNTRESS)
+        if cached:
+            log("Using cached Huntress agents")
+            return cached
 
     log("Fetching Huntress agents...")
-    agents = []
-    page = 1
-    while True:
-        data = huntress_get("/agents", {"page": page})
-        if not data or "agents" not in data:
-            break
+    agents = fetch_paginated("/v1/agents")
+    if agents:
+        save_cache(HUNTRESS_CACHE_PATH_AGENTS, agents)
+    return agents
 
-        agents.extend(data["agents"])
 
-        if not data.get("pagination", {}).get("has_more"):
-            break
-
-        page += 1
+def get_huntress_orgs(force_refresh: bool = False) -> Optional[List[Dict[str, Any]]]:
+    """Loads Huntress organizations with caching."""
+    if not force_refresh:
+        cached = load_cache(HUNTRESS_CACHE_PATH_ORGS, CACHE_TTL_HUNTRESS)
+        if cached:
+            log("Using cached Huntress organizations")
+            return cached
 
     log("Fetching Huntress organizations...")
-    orgs = {}
-    page = 1
-    while True:
-        data = huntress_get("/organizations", {"page": page})
-        if not data or "organizations" not in data:
-            break
+    orgs = fetch_paginated("/v1/organizations")
+    if orgs:
+        save_cache(HUNTRESS_CACHE_PATH_ORGS, orgs)
+    return orgs
 
-        for org in data["organizations"]:
-            orgs[org["id"]] = org["name"]
 
-        if not data.get("pagination", {}).get("has_more"):
-            break
+# ----------------------------------------------------------------------
+# PREFLIGHT VALIDATION
+# ----------------------------------------------------------------------
 
-        page += 1
+def huntress_preflight() -> bool:
+    """
+    Performs a single lightweight validation call.
+    soft-fail OK: returns True/False
+    """
+    log("Running Huntress preflight check...")
 
-    save_cache(CACHE_FILE, {
-        "_timestamp": datetime.datetime.utcnow().isoformat(),
-        "agents": agents,
-        "orgs": orgs
-    })
+    resp = huntress_get("/v1/agents", params={"page": 1})
+    if resp is None:
+        warn("Huntress preflight failed (soft)")
+        return False
 
-    return agents, orgs
-
-def preflight_huntress():
-    """Lightweight validation of Huntress creds."""
-    test = huntress_get("/agents", {"page": 1})
-    return test is not None
+    log("Huntress preflight OK")
+    return True
