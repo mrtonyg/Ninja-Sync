@@ -14,7 +14,7 @@ Implements:
 import requests
 
 from ..core.logging import log, warn, error
-from ..cache import load_cache, save_cache
+from ..core.cache import load_cache, save_cache
 from ..core.config import (
     AXCIENT_BASE_URL,
     AXCIENT_CACHE_PATH,

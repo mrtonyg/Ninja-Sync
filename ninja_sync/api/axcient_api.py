@@ -20,7 +20,7 @@ from ..core.config import (
 )
 from ..core.secrets import AXCIENT_API_KEY
 from .base_api import api_get_json
-from ..cache import load_cache, save_cache
+from ..core.cache import load_cache, save_cache
 
 
 # ---------------------------------------------------------------------

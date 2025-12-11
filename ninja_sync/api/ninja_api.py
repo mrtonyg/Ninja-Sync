@@ -29,7 +29,7 @@ from ..core.secrets import (
     NINJA_CLIENT_SECRET,
 )
 
-from ..cache import load_cache, save_cache
+from ..core.cache import load_cache, save_cache
 from ..html.texttools import strip_html
 
 

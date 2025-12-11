@@ -25,7 +25,7 @@ from ..core.secrets import (
     HUNTRESS_PUBLIC_KEY,
     HUNTRESS_PRIVATE_KEY,
 )
-from ..cache import load_cache, save_cache
+from ..core.cache import load_cache, save_cache
 
 
 # ===============================================================
