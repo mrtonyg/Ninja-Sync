@@ -26,7 +26,7 @@ from ..secrets import (
     NINJA_CLIENT_ID,
     NINJA_CLIENT_SECRET,
 )
-from ..html_builder import strip_html
+from ..core.html_builder import strip_html
 
 
 # ============================================================

@@ -4,7 +4,7 @@ Author: Anthony George
 Version: 2.0.6
 """
 
-from mm_sync.utils import warn
+from ..utils import warn
 
 def match_huntress_to_ninja(agent, ninja_devices):
     sn = (agent.get("serial_number") or "").lower()

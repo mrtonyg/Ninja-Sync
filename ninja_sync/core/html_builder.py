@@ -4,7 +4,7 @@ Author: Anthony George
 Version: 2.0.6
 """
 
-from mm_sync.utils import strip_html
+from ..utils import strip_html
 
 # ------------------------------------------------------
 # Last-known-good Format D  (your proven stable layout)
