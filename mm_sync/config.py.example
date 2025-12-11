@@ -1,27 +1,26 @@
 """
-Configuration template for sync2Ninja
+config.py.example
+Configuration template for sync2Ninja.
 Copy to config.py and modify your values.
-
-This file is NOT versioned.
 """
 
-# Cache directories (relative or absolute paths)
+# Cache directories
 CACHE_DIR = "./mm-sync-cache"
 HUNTRESS_CACHE = f"{CACHE_DIR}/huntress.json"
 NINJA_CACHE = f"{CACHE_DIR}/ninja_devices.json"
 AXCIENT_CACHE = f"{CACHE_DIR}/axcient.json"
 
-# Cache expiration (seconds)
+# Cache TTLs (seconds)
 CACHE_TTL = {
     "huntress": 1800,
     "ninja": 1800,
     "axcient": 1800,
 }
 
-# API Endpoints
+# API Endpoints — corrected Huntress base URL
 ENDPOINTS = {
     "huntress": {
-        "base": "https://api.huntress.io/api/v1",
+        "base": "https://api.huntress.io/v1",   # FIXED
         "agents": "/agents",
         "orgs": "/organizations",
     },
@@ -35,4 +34,3 @@ ENDPOINTS = {
         "devices": "/device",
     }
 }
-
