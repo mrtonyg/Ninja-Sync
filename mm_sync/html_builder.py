@@ -46,32 +46,60 @@ def build_huntress_html(agent, org_name):
 
 
 def build_axcient_html(device):
+    """
+    Build condensed 2-column HTML for Axcient status.
+    Safe against missing autoverify_details, missing jobs, missing timestamps.
+    """
+    name = device.get("name", "Unknown")
+    agent_version = device.get("agent_version", "Unknown")
+
+    current = device.get("current_health_status") or {}
+    curr_status = current.get("status", "Unknown")
+    curr_ts = current.get("timestamp", "Unknown")
+
+    # Autoverify may be NULL
+    av = device.get("latest_autoverify_details") or {}
+    av_status = av.get("status", "none")
+    av_ts = av.get("timestamp", "Unknown")
+    av_result_icon = "🟢" if av.get("is_healthy") else "🔴"
+
+    latest_cloud_rp = device.get("latest_cloud_rp", "Unknown")
+
+    # Jobs are optional
+    jobs = device.get("jobs") or []
+    cloud_job = jobs[0] if jobs else {}
+    job_latest_rp = cloud_job.get("latest_rp", "Unknown")
+    job_health = cloud_job.get("health_status", "Unknown")
+    job_icon = "🟢" if job_health == "NORMAL" else "🔴"
 
     def row(label, value):
-        return f"<b>{label}:</b> {value}<br>\n"
-
-    health = device.get("current_health_status", {})
-    av = device.get("latest_autoverify_details", {})
+        return (
+            f"<div style='display:flex;'>"
+            f"<div style='width:140px;font-weight:bold;'>{label}:</div>"
+            f"<div>{value}</div>"
+            f"</div>"
+        )
 
     html = f"""
-<h3>Axcient Backup Status</h3>
-
-<b>Information</b><br>
-{row("Device Name", device.get("name"))}
-{row("IP Address", device.get("ip_address"))}
-{row("Operating System", device.get("os", {}).get("os_name"))}
-
-<b>Current Status</b><br>
-{row("Status", f"🟢 {health.get('status')} ({health.get('timestamp')})")}
-
-<b>AutoVerify</b><br>
-{row("Result", f"{'🟢' if av.get('is_healthy') else '🔴'} {av.get('status')} ({av.get('timestamp')})")}
-
-<b>Recovery Points</b><br>
-{row("Latest Cloud RP", device.get("latest_cloud_rp"))}
-
-<b>Agent</b><br>
-{row("Agent Version", device.get("agent_version"))}
+<h3 style="margin-bottom:6px;">Axcient Backup Status</h3>
+{row("Device", name)}
+{row("Agent Ver", agent_version)}
+{row("Current Status", f"{'🟢' if curr_status == 'NORMAL' else '🔴'} {curr_status} ({curr_ts})")}
+{row("Cloud RP", latest_cloud_rp)}
+{row("Job RP", f"{job_icon} {job_latest_rp}")}
+{row("AutoVerify", f"{av_result_icon} {av_status} ({av_ts})")}
 """
 
-    return html.strip(), strip_html(html)
+    # Plain-text version for Ninja One WYSIWYG "text" field
+    text = (
+        f"Axcient Backup Status\n"
+        f"- Device: {name}\n"
+        f"- Agent Ver: {agent_version}\n"
+        f"- Current Status: {curr_status} ({curr_ts})\n"
+        f"- Cloud RP: {latest_cloud_rp}\n"
+        f"- Job RP: {job_latest_rp} ({job_health})\n"
+        f"- AutoVerify: {av_status} ({av_ts})\n"
+    )
+
+    return html.strip(), text.strip()
+
