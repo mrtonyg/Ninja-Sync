@@ -52,6 +52,72 @@ def handle_cli_flags():
         return True
 
     return False
+# ------------------------------------------------------------
+# Preflight Checks
+# ------------------------------------------------------------
+from mm_sync.huntress import huntress_raw_get
+from mm_sync.ninja_api import (
+    ninja_get_token,
+    ninja_get_all_devices
+)
+from mm_sync.axcient import axcient_raw_get
+
+
+def preflight_checks():
+    log("[INFO] Running preflight checks...")
+
+    # ------------------------------------
+    # 1. Check Huntress Authentication
+    # ------------------------------------
+    try:
+        resp = huntress_raw_get("/agents", params={"page": 1})
+        if resp is None:
+            log_error("[FAIL] Huntress authentication failed.")
+            return False
+    except Exception as e:
+        log_error("[FAIL] Huntress API unreachable or invalid credentials.", exc=e)
+        return False
+    log("[OK] Huntress authentication verified.")
+
+    # ------------------------------------
+    # 2. Check NinjaOne OAuth & Scopes
+    # ------------------------------------
+    token = ninja_get_token()
+    if not token:
+        log_error("[FAIL] NinjaOne OAuth token could not be obtained.")
+        return False
+
+    # Validate token by performing a harmless request
+    devices = ninja_get_all_devices(force_refresh=True)
+    if devices is None or devices == []:
+        log_error(
+            "[FAIL] NinjaOne API credentials valid, but device list came back empty. "
+            "This usually indicates missing OAuth scopes: "
+            "device:read, device:write, customfield:read, customfield:write"
+        )
+        return False
+
+    log(f"[OK] NinjaOne OAuth verified. {len(devices)} devices accessible.")
+
+    # ------------------------------------
+    # 3. Check Axcient API Key
+    # ------------------------------------
+    try:
+        test = axcient_raw_get("/device", {"limit": 1, "offset": 0})
+        if not test:
+            log_error("[FAIL] Axcient API key invalid or no access.")
+            return False
+    except Exception as e:
+        log_error("[FAIL] Axcient API unreachable or invalid key.", exc=e)
+        return False
+
+    log("[OK] Axcient API key verified.")
+
+    # ------------------------------------
+    # All checks passed
+    # ------------------------------------
+    log("[INFO] All preflight checks passed successfully.\n")
+    return True
 
 # ------------------------------------------------------------
 # Main
@@ -62,26 +128,33 @@ def main():
     if handle_cli_flags():
         return
 
-    # --------------------------------------------------------
-    # Huntress
-    # --------------------------------------------------------
+    # ----------------------------------------
+    # Preflight check BEFORE doing any work
+    # ----------------------------------------
+    if not preflight_checks():
+        log("[ABORT] Preflight checks failed. Sync halted.\n")
+        return
+
+    # ----------------------------------------
+    # Pull Huntress
+    # ----------------------------------------
     agents, orgs = pull_huntress()
     agents = enrich_huntress(agents, orgs)
 
-    # --------------------------------------------------------
-    # Ninja Inventory
-    # --------------------------------------------------------
+    # ----------------------------------------
+    # Ninja Devices
+    # ----------------------------------------
     ninja_devices = ninja_get_all_devices()
     display_map, dns_map, system_map, base_map = build_device_maps(ninja_devices)
 
-    # --------------------------------------------------------
-    # Axcient
-    # --------------------------------------------------------
+    # ----------------------------------------
+    # Axcient Devices
+    # ----------------------------------------
     axcient_devices = pull_axcient()
 
-    # --------------------------------------------------------
-    # Process Huntress → Ninja
-    # --------------------------------------------------------
+    # ----------------------------------------
+    # Sync Huntress → Ninja
+    # ----------------------------------------
     for agent in agents:
         hn = agent.get("hostname")
         if not hn:
@@ -92,15 +165,19 @@ def main():
             continue
 
         nid = ninja_dev.get("id")
-        ninja_name = ninja_dev.get("displayName") or ninja_dev.get("dnsName") or ninja_dev.get("systemName")
+        ninja_name = (
+            ninja_dev.get("displayName")
+            or ninja_dev.get("dnsName")
+            or ninja_dev.get("systemName")
+        )
 
         html = html_huntress(agent)
         ninja_update_field(nid, "huntressStatus", html, hn, ninja_name)
         time.sleep(0.2)
 
-    # --------------------------------------------------------
-    # Process Axcient → Ninja
-    # --------------------------------------------------------
+    # ----------------------------------------
+    # Sync Axcient → Ninja
+    # ----------------------------------------
     for ax in axcient_devices:
         name = ax.get("name")
         if not name:
@@ -111,7 +188,11 @@ def main():
             continue
 
         nid = ninja_dev.get("id")
-        ninja_name = ninja_dev.get("displayName") or ninja_dev.get("dnsName") or ninja_dev.get("systemName")
+        ninja_name = (
+            ninja_dev.get("displayName")
+            or ninja_dev.get("dnsName")
+            or ninja_dev.get("systemName")
+        )
 
         html = html_axcient(ax)
         ninja_update_field(nid, "backupStatus", html, name, ninja_name)
