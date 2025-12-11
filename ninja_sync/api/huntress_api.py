@@ -1,123 +1,56 @@
-"""
-=====================================================================
-  ninja_sync/api/huntress_api.py
-  Ninja-Sync v2.0.8
-  Media Managed — Anthony George
-  Huntress API Integration
-=====================================================================
+# Media Managed – Ninja-Sync
+# Version: 2.0.9
+# Author: Anthony George
 
-Implements:
-  - build_huntress_auth()
-  - huntress_get(endpoint, params=None)
-  - fetch_all_agents()
-  - fetch_all_orgs()
-  - preflight_huntress()
-"""
+import requests
+from ..core.logger import warn
+from ..core.utils import make_basic_auth
+from ..core import config
+from ..core.secrets import HUNTRESS_PUBLIC_KEY, HUNTRESS_PRIVATE_KEY
 
-import base64
-from ..core.logging import log, warn, error
-from ..core.config import (
-    HUNTRESS_BASE_URL,
-    HUNTRESS_CACHE_PATH_AGENTS,
-    HUNTRESS_CACHE_PATH_ORGS,
-)
-from ..core.secrets import (
-    HUNTRESS_PUBLIC_KEY,
-    HUNTRESS_PRIVATE_KEY,
-)
-from .base_api import api_get_json
-from ninja_sync.core.cache import read_cache, write_cache, clear_cache, clear_cache_group
+class HuntressAPI:
+    def __init__(self):
+        key = make_basic_auth(HUNTRESS_PUBLIC_KEY, HUNTRESS_PRIVATE_KEY)
+        self.headers = {"Authorization": f"Basic {key}"}
 
+    def get_agents(self):
+        url = f"{config.HUNTRESS_BASE_URL}/agents"
+        agents = []
+        page = 1
 
+        while True:
+            resp = requests.get(url, headers=self.headers, params={"page": page})
+            if resp.status_code != 200:
+                warn(f"Huntress GET failed {url}: {resp.status_code} {resp.text}")
+                break
 
-# ---------------------------------------------------------------------
-#  Build Authorization header for Huntress Basic Auth
-# ---------------------------------------------------------------------
-def build_huntress_auth():
-    keypair = f"{HUNTRESS_PUBLIC_KEY}:{HUNTRESS_PRIVATE_KEY}"
-    encoded = base64.b64encode(keypair.encode()).decode()
-    return {"Authorization": f"Basic {encoded}"}
+            data = resp.json()
+            chunk = data.get("agents", [])
+            agents.extend(chunk)
 
+            if not data.get("pagination", {}).get("has_next_page"):
+                break
+            page += 1
 
-# ---------------------------------------------------------------------
-#  Generic Huntress GET wrapper
-# ---------------------------------------------------------------------
-def huntress_get(endpoint, params=None):
-    url = f"{HUNTRESS_BASE_URL}{endpoint}"
-    headers = build_huntress_auth()
-    data = api_get_json(url, headers, params)
+        return agents
 
-    if data is None:
-        error(f"Huntress GET failed {url}: {data}")
-        return None
+    def get_orgs(self):
+        url = f"{config.HUNTRESS_BASE_URL}/organizations"
+        orgs = []
+        page = 1
 
-    return data
+        while True:
+            resp = requests.get(url, headers=self.headers, params={"page": page})
+            if resp.status_code != 200:
+                warn(f"Huntress GET failed {url}: {resp.status_code} {resp.text}")
+                break
 
+            data = resp.json()
+            chunk = data.get("organizations", [])
+            orgs.extend(chunk)
 
-# ---------------------------------------------------------------------
-#  Pull agents (with pagination)
-# ---------------------------------------------------------------------
-def fetch_all_agents(force=False):
-    cached = read_cache(HUNTRESS_CACHE_PATH_AGENTS)
-    if cached and not force:
-        log("Using cached Huntress agents")
-        return cached
+            if not data.get("pagination", {}).get("has_next_page"):
+                break
+            page += 1
 
-    log("Fetching Huntress agents...")
-
-    agents = []
-    page = 1
-    while True:
-        resp = huntress_get("/api/v1/agents", params={"page": page})
-        if not resp or "agents" not in resp:
-            break
-
-        agents.extend(resp["agents"])
-        if not resp.get("has_more"):
-            break
-        page += 1
-
-    write_cache(HUNTRESS_CACHE_PATH_AGENTS, agents)
-    return agents
-
-
-# ---------------------------------------------------------------------
-#  Pull organizations (with pagination)
-# ---------------------------------------------------------------------
-def fetch_all_orgs(force=False):
-    cached = read_cache(HUNTRESS_CACHE_PATH_ORGS)
-    if cached and not force:
-        log("Using cached Huntress organizations")
-        return cached
-
-    log("Fetching Huntress organizations...")
-
-    orgs = []
-    page = 1
-    while True:
-        resp = huntress_get("/api/v1/organizations", params={"page": page})
-        if not resp or "organizations" not in resp:
-            break
-
-        orgs.extend(resp["organizations"])
-        if not resp.get("has_more"):
-            break
-        page += 1
-
-    write_cache(HUNTRESS_CACHE_PATH_ORGS, orgs)
-    return orgs
-
-
-# ---------------------------------------------------------------------
-#  Preflight validation
-# ---------------------------------------------------------------------
-def preflight_huntress():
-    log("Preflight: Checking Huntress API...")
-
-    resp = huntress_get("/api/v1/agents", params={"page": 1})
-    if resp is None or "agents" not in resp:
-        warn("Huntress preflight FAILED (soft)")
-        return False
-
-    log("Huntress preflight OK")
-    return True
+        return orgs
