@@ -20,7 +20,7 @@ from ..core.config import (
 )
 from ..core.secrets import AXCIENT_API_KEY
 from .base_api import api_get_json
-from ..core.cache import load_cache, save_cache
+from ninja_sync.core.cache import read_cache, write_cache, clear_cache, clear_cache_group
 
 
 # ---------------------------------------------------------------------
@@ -40,7 +40,7 @@ def axcient_get(endpoint, params=None):
 #  Pull all devices using pagination
 # ---------------------------------------------------------------------
 def fetch_all_axcient_devices(force=False):
-    cached = load_cache(AXCIENT_CACHE_PATH_DEVICES)
+    cached = read_cache(AXCIENT_CACHE_PATH_DEVICES)
     if cached and not force:
         log("Using cached Axcient data")
         return cached
@@ -74,7 +74,7 @@ def fetch_all_axcient_devices(force=False):
         if len(batch) < limit:
             break  # No more pages
 
-    save_cache(AXCIENT_CACHE_PATH_DEVICES, all_devices)
+    write_cache(AXCIENT_CACHE_PATH_DEVICES, all_devices)
     return all_devices
 
 

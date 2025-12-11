@@ -17,7 +17,7 @@ import time
 import requests
 
 from ..core.logging import log, warn, error
-from ..cache import load_cache, save_cache
+from ninja_sync.core.cache import read_cache, write_cache, clear_cache, clear_cache_group
 from ..core.config import (
     NINJA_BASE_URL,
     NINJA_CACHE_PATH,
@@ -88,7 +88,7 @@ def _headers():
 # ============================================================
 
 def ninja_get_devices(force=False):
-    cached = load_cache(NINJA_CACHE_PATH)
+    cached = read_cache(NINJA_CACHE_PATH)
     if cached and not force:
         log("Using cached NinjaOne devices")
         return cached
@@ -108,7 +108,7 @@ def ninja_get_devices(force=False):
         error("Ninja device JSON decode error", str(e))
         return {}
 
-    save_cache(NINJA_CACHE_PATH, devices)
+    write_cache(NINJA_CACHE_PATH, devices)
     return devices
 
 

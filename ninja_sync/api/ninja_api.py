@@ -29,7 +29,7 @@ from ..core.secrets import (
     NINJA_CLIENT_SECRET,
 )
 
-from ..core.cache import load_cache, save_cache
+from ninja_sync.core.cache import read_cache, write_cache, clear_cache, clear_cache_group
 from ..html.texttools import strip_html
 
 
@@ -38,7 +38,7 @@ from ..html.texttools import strip_html
 # ===============================================================
 
 def ninja_get_token(force=False):
-    cached = load_cache(NINJA_TOKEN_CACHE_PATH)
+    cached = read_cache(NINJA_TOKEN_CACHE_PATH)
     if cached and not force:
         expires_at = cached.get("expires_at", 0)
         if time.time() < expires_at:
@@ -63,7 +63,7 @@ def ninja_get_token(force=False):
     token = data.get("access_token")
     expires_in = data.get("expires_in", 3600)
 
-    save_cache(
+    write_cache(
         NINJA_TOKEN_CACHE_PATH,
         {"access_token": token, "expires_at": time.time() + expires_in - 60}
     )
@@ -76,7 +76,7 @@ def ninja_get_token(force=False):
 # ===============================================================
 
 def ninja_get_devices(force=False):
-    cached = load_cache(NINJA_DEVICE_CACHE_PATH)
+    cached = read_cache(NINJA_DEVICE_CACHE_PATH)
     if cached and not force:
         log("Using cached NinjaOne devices")
         return cached
@@ -95,7 +95,7 @@ def ninja_get_devices(force=False):
         return []
 
     devices = resp.json()
-    save_cache(NINJA_DEVICE_CACHE_PATH, devices)
+    write_cache(NINJA_DEVICE_CACHE_PATH, devices)
     return devices
 
 

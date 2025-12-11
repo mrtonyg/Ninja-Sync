@@ -14,7 +14,7 @@ Implements:
 import requests
 
 from ..core.logging import log, warn, error
-from ..core.cache import load_cache, save_cache
+from ninja_sync.core.cache import read_cache, write_cache, clear_cache, clear_cache_group
 from ..core.config import (
     AXCIENT_BASE_URL,
     AXCIENT_CACHE_PATH,
@@ -48,7 +48,7 @@ def _axcient_get(params):
 # ===============================================================
 
 def axcient_get_devices(force=False):
-    cached = load_cache(AXCIENT_CACHE_PATH)
+    cached = read_cache(AXCIENT_CACHE_PATH)
     if cached and not force:
         log("Using cached Axcient data")
         return cached
@@ -72,7 +72,7 @@ def axcient_get_devices(force=False):
 
         offset += limit
 
-    save_cache(AXCIENT_CACHE_PATH, all_devices)
+    write_cache(AXCIENT_CACHE_PATH, all_devices)
     return all_devices
 
 

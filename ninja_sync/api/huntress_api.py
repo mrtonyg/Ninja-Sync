@@ -26,7 +26,8 @@ from ..core.secrets import (
     HUNTRESS_PRIVATE_KEY,
 )
 from .base_api import api_get_json
-from ..core.cache import load_cache, save_cache
+from ninja_sync.core.cache import read_cache, write_cache, clear_cache, clear_cache_group
+
 
 
 # ---------------------------------------------------------------------
@@ -57,7 +58,7 @@ def huntress_get(endpoint, params=None):
 #  Pull agents (with pagination)
 # ---------------------------------------------------------------------
 def fetch_all_agents(force=False):
-    cached = load_cache(HUNTRESS_CACHE_PATH_AGENTS)
+    cached = read_cache(HUNTRESS_CACHE_PATH_AGENTS)
     if cached and not force:
         log("Using cached Huntress agents")
         return cached
@@ -76,7 +77,7 @@ def fetch_all_agents(force=False):
             break
         page += 1
 
-    save_cache(HUNTRESS_CACHE_PATH_AGENTS, agents)
+    write_cache(HUNTRESS_CACHE_PATH_AGENTS, agents)
     return agents
 
 
@@ -84,7 +85,7 @@ def fetch_all_agents(force=False):
 #  Pull organizations (with pagination)
 # ---------------------------------------------------------------------
 def fetch_all_orgs(force=False):
-    cached = load_cache(HUNTRESS_CACHE_PATH_ORGS)
+    cached = read_cache(HUNTRESS_CACHE_PATH_ORGS)
     if cached and not force:
         log("Using cached Huntress organizations")
         return cached
@@ -103,7 +104,7 @@ def fetch_all_orgs(force=False):
             break
         page += 1
 
-    save_cache(HUNTRESS_CACHE_PATH_ORGS, orgs)
+    write_cache(HUNTRESS_CACHE_PATH_ORGS, orgs)
     return orgs
 
 
