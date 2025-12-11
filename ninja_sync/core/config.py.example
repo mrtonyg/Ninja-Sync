@@ -1,0 +1,105 @@
+"""
+=====================================================================
+  ninja_sync/core/config.py.example
+  Ninja-Sync v2.0.8
+  Media Managed — Anthony George
+  Configuration Template (rename to config.py)
+=====================================================================
+
+NOTE:
+  - This file should be copied to config.py
+  - Secrets go into secrets.py (created from secrets.py.example)
+  - Paths and TTLs may be customized per environment
+"""
+
+import os
+
+# -------------------------------------------------------------------
+# BASE DIRECTORIES
+# -------------------------------------------------------------------
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+PROJECT_ROOT = os.path.dirname(os.path.dirname(BASE_DIR))
+
+DATA_DIR = os.path.join(PROJECT_ROOT, "data")
+CACHE_DIR = os.path.join(DATA_DIR, "cache")
+LOG_DIR = os.path.join(DATA_DIR, "logs")
+
+for path in (DATA_DIR, CACHE_DIR, LOG_DIR):
+    os.makedirs(path, exist_ok=True)
+
+LOG_PATH = os.path.join(LOG_DIR, "sync.log")
+
+# -------------------------------------------------------------------
+# GLOBAL SETTINGS
+# -------------------------------------------------------------------
+
+DEBUG_MODE = False  # Can be overridden via CLI --debug
+
+PREFLIGHT_SOFT_FAIL = True  # Continue even if a preflight check fails
+
+
+# -------------------------------------------------------------------
+# HUNTRESS CONFIGURATION
+# -------------------------------------------------------------------
+
+HUNTRESS_BASE_URL = "https://api.huntress.io/api/v1"
+
+# Cache files
+HUNTRESS_CACHE_PATH_AGENTS = os.path.join(CACHE_DIR, "huntress_agents.json")
+HUNTRESS_CACHE_PATH_ORGS   = os.path.join(CACHE_DIR, "huntress_orgs.json")
+
+# Cache TTL
+CACHE_TTL_HUNTRESS = 30 * 60  # 30 minutes in seconds
+
+
+# -------------------------------------------------------------------
+# NINJAONE CONFIGURATION
+# -------------------------------------------------------------------
+
+NINJA_BASE_URL = "https://api.ninjarmm.com"
+
+# Cache path
+NINJA_CACHE_PATH_DEVICES = os.path.join(CACHE_DIR, "ninja_devices.json")
+
+CACHE_TTL_NINJA = 30 * 60  # 30 minutes
+
+# Required scope for accessing device & custom-field APIs
+NINJA_OAUTH_SCOPE = "monitoring management control"
+
+
+# -------------------------------------------------------------------
+# AXCIENT CONFIGURATION
+# -------------------------------------------------------------------
+
+AXCIENT_BASE_URL = "https://axapi.axcient.com/x360recover"
+
+# Cache path
+AXCIENT_CACHE_PATH_DEVICES = os.path.join(CACHE_DIR, "axcient_devices.json")
+
+CACHE_TTL_AXCIENT = 30 * 60  # 30 minutes
+
+
+# -------------------------------------------------------------------
+# CACHE CLEAR GROUPS MAPPING
+# -------------------------------------------------------------------
+
+CACHE_GROUPS = {
+    "huntress": [
+        HUNTRESS_CACHE_PATH_AGENTS,
+        HUNTRESS_CACHE_PATH_ORGS,
+    ],
+    "ninja": [
+        NINJA_CACHE_PATH_DEVICES,
+    ],
+    "axcient": [
+        AXCIENT_CACHE_PATH_DEVICES,
+    ],
+    "all": [
+        HUNTRESS_CACHE_PATH_AGENTS,
+        HUNTRESS_CACHE_PATH_ORGS,
+        NINJA_CACHE_PATH_DEVICES,
+        AXCIENT_CACHE_PATH_DEVICES,
+    ]
+}
+
