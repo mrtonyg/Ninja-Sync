@@ -1,21 +1,22 @@
 """
 NinjaOne API
 Author: Anthony George
-Version: 2.0.5
+Version: 2.0.6
 """
 
 import requests
 import datetime
-from utils import log, warn, error, load_cache, save_cache, cache_valid, strip_html
-from secrets import NINJA_CLIENT_ID, NINJA_CLIENT_SECRET, NINJA_SCOPE
-from config import CACHE_PATH, CACHE_TTL_NINJA, FORCE_EXPIRE_NINJA, NINJA_BASE_URL
+
+from mm_sync.utils import log, warn, error, load_cache, save_cache, cache_valid, strip_html
+from mm_sync.secrets import NINJA_CLIENT_ID, NINJA_CLIENT_SECRET, NINJA_SCOPE
+from mm_sync.config import CACHE_PATH, CACHE_TTL_NINJA, FORCE_EXPIRE_NINJA, NINJA_BASE_URL
 
 CACHE_FILE = f"{CACHE_PATH}/ninja_devices.json"
 TOKEN_CACHE = f"{CACHE_PATH}/ninja_token.json"
 
-# ------------------------------
-# OAuth Token
-# ------------------------------
+# -------------------------------------------
+# Get OAuth Token
+# -------------------------------------------
 def ninja_get_token():
     cache = load_cache(TOKEN_CACHE)
     if cache_valid(cache, 3000):
@@ -30,17 +31,19 @@ def ninja_get_token():
     }
 
     resp = requests.post(url, data=payload)
+
     if resp.status_code != 200:
         error(f"Ninja token error: {resp.status_code} {resp.text}")
         return None
 
     token = resp.json().get("access_token")
+
     save_cache(TOKEN_CACHE, {
         "_timestamp": datetime.datetime.utcnow().isoformat(),
         "access_token": token
     })
-    return token
 
+    return token
 
 def headers():
     token = ninja_get_token()
@@ -49,14 +52,11 @@ def headers():
         "Content-Type": "application/json"
     }
 
-# ------------------------------
-# Load devices
-# ------------------------------
+# -------------------------------------------
+# Pull Devices
+# -------------------------------------------
 def pull_ninja_devices():
-    if FORCE_EXPIRE_NINJA:
-        cache = None
-    else:
-        cache = load_cache(CACHE_FILE)
+    cache = None if FORCE_EXPIRE_NINJA else load_cache(CACHE_FILE)
 
     if cache_valid(cache, CACHE_TTL_NINJA):
         log("Using cached NinjaOne devices")
@@ -70,6 +70,7 @@ def pull_ninja_devices():
         return []
 
     devices = resp.json()
+
     save_cache(CACHE_FILE, {
         "_timestamp": datetime.datetime.utcnow().isoformat(),
         "devices": devices
@@ -78,9 +79,9 @@ def pull_ninja_devices():
     return devices
 
 
-# ------------------------------
-# Update custom field
-# ------------------------------
+# -------------------------------------------
+# Update Custom Field
+# -------------------------------------------
 def ninja_update_field(device_id, field_name, html, text):
     url = f"{NINJA_BASE_URL}/v2/device/{device_id}/custom-fields"
 
@@ -92,14 +93,14 @@ def ninja_update_field(device_id, field_name, html, text):
     }
 
     resp = requests.patch(url, headers=headers(), json=payload)
+
     if resp.status_code not in (200, 204):
-        error(f"Failed updating custom field {field_name} on {device_id}")
+        error(f"Failed updating custom field '{field_name}' on device {device_id}")
         error(resp.text)
         return False
 
-    log(f"[OK] Updated {field_name} on {device_id}")
+    log(f"[OK] Updated {field_name} on device {device_id}")
     return True
-
 
 def preflight_ninja():
     return ninja_get_token() is not None

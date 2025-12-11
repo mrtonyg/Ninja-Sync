@@ -1,10 +1,10 @@
 """
 Device Matching Logic
 Author: Anthony George
-Version: 2.0.5
+Version: 2.0.6
 """
 
-from utils import warn
+from mm_sync.utils import warn
 
 def match_huntress_to_ninja(agent, ninja_devices):
     sn = (agent.get("serial_number") or "").lower()
@@ -16,13 +16,16 @@ def match_huntress_to_ninja(agent, ninja_devices):
             (d.get("dnsName") or "").lower(),
             (d.get("systemName") or "").lower()
         ]
+
         if sn and sn in str(d).lower():
             return d
+
         if hn in names:
             return d
 
     warn(f"Huntress: no match for {hn}")
     return None
+
 
 def match_axcient_to_ninja(device, ninja_devices):
     name = (device.get("name") or "").split(".")[0].lower()
@@ -33,6 +36,7 @@ def match_axcient_to_ninja(device, ninja_devices):
             (d.get("dnsName") or "").split(".")[0].lower(),
             (d.get("systemName") or "").split(".")[0].lower()
         ]
+
         if name in names:
             return d
 

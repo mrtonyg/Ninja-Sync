@@ -1,15 +1,16 @@
 """
 HTML Builder for NinjaOne WYSIWYG
 Author: Anthony George
-Version: 2.0.5
+Version: 2.0.6
 """
 
-from utils import strip_html
+from mm_sync.utils import strip_html
 
-# ---------------------------
-# Build Huntress HTML Block
-# ---------------------------
+# ------------------------------------------------------
+# Last-known-good Format D  (your proven stable layout)
+# ------------------------------------------------------
 def build_huntress_html(agent, org_name):
+
     def row(label, value):
         return f"<b>{label}:</b> {value}<br>\n"
 
@@ -40,12 +41,12 @@ def build_huntress_html(agent, org_name):
 {row("Defender Policy", f"🟢 {agent.get('defender_policy_status')}")}
 {row("Firewall Status", f"🟢 {agent.get('firewall_status')}")}
 """
+
     return html.strip(), strip_html(html)
 
-# ---------------------------
-# Build Axcient HTML Block
-# ---------------------------
+
 def build_axcient_html(device):
+
     def row(label, value):
         return f"<b>{label}:</b> {value}<br>\n"
 
@@ -67,9 +68,10 @@ def build_axcient_html(device):
 {row("Result", f"{'🟢' if av.get('is_healthy') else '🔴'} {av.get('status')} ({av.get('timestamp')})")}
 
 <b>Recovery Points</b><br>
-{row("Latest Cloud RP", device.get('latest_cloud_rp'))}
+{row("Latest Cloud RP", device.get("latest_cloud_rp"))}
 
 <b>Agent</b><br>
 {row("Agent Version", device.get("agent_version"))}
 """
+
     return html.strip(), strip_html(html)

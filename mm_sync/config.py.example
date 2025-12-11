@@ -1,7 +1,7 @@
 """
-MM-Sync Configuration File (example)
+MM-Sync Configuration File (.example)
 Author: Anthony George
-Version: 2.0.5
+Version: 2.0.6
 """
 
 # -----------------------------
@@ -19,7 +19,6 @@ CACHE_TTL_AXCIENT = 1800
 
 # -----------------------------
 # FORCE CACHE EXPIRATION
-# (set True to purge all cache on run)
 # -----------------------------
 FORCE_EXPIRE_HUNTRESS = False
 FORCE_EXPIRE_NINJA = False
@@ -33,8 +32,7 @@ NINJA_BASE_URL = "https://api.ninjarmm.com"
 AXCIENT_BASE_URL = "https://axapi.axcient.com/x360recover"
 
 # -----------------------------
-# CUSTOM FIELD NAMES
+# Custom field names
 # -----------------------------
 NINJA_FIELD_HUNTRESS = "huntressStatus"
 NINJA_FIELD_AXCIENT = "backupStatus"
-

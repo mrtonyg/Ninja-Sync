@@ -1,22 +1,23 @@
 """
 Huntress API
 Author: Anthony George
-Version: 2.0.5
+Version: 2.0.6
 """
 
 import requests
 import datetime
-from utils import log, warn, error, load_cache, save_cache, cache_valid, make_basic_auth
-from secrets import HUNTRESS_PUBLIC_KEY, HUNTRESS_PRIVATE_KEY
-from config import CACHE_PATH, CACHE_TTL_HUNTRESS, HUNTRESS_BASE_URL, FORCE_EXPIRE_HUNTRESS
+
+from mm_sync.utils import log, warn, error, load_cache, save_cache, cache_valid, make_basic_auth
+from mm_sync.secrets import HUNTRESS_PUBLIC_KEY, HUNTRESS_PRIVATE_KEY
+from mm_sync.config import CACHE_PATH, CACHE_TTL_HUNTRESS, HUNTRESS_BASE_URL, FORCE_EXPIRE_HUNTRESS
 
 CACHE_FILE = f"{CACHE_PATH}/huntress.json"
 
 def huntress_get(endpoint, params=None):
     auth = make_basic_auth(HUNTRESS_PUBLIC_KEY, HUNTRESS_PRIVATE_KEY)
     headers = {"Authorization": f"Basic {auth}"}
-
     url = f"{HUNTRESS_BASE_URL}{endpoint}"
+
     resp = requests.get(url, headers=headers, params=params or {})
 
     if resp.status_code != 200:
@@ -26,10 +27,7 @@ def huntress_get(endpoint, params=None):
     return resp.json()
 
 def pull_huntress():
-    if FORCE_EXPIRE_HUNTRESS:
-        cache = None
-    else:
-        cache = load_cache(CACHE_FILE)
+    cache = None if FORCE_EXPIRE_HUNTRESS else load_cache(CACHE_FILE)
 
     if cache_valid(cache, CACHE_TTL_HUNTRESS):
         log("Using cached Huntress data")
@@ -68,5 +66,4 @@ def pull_huntress():
     return agents, orgs
 
 def preflight_huntress():
-    test = huntress_get("/agents", {"page": 1})
-    return test is not None
+    return huntress_get("/agents", {"page": 1}) is not None

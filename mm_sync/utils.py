@@ -1,7 +1,7 @@
 """
 Utility functions
 Author: Anthony George
-Version: 2.0.5
+Version: 2.0.6
 """
 
 import os
@@ -22,15 +22,15 @@ def warn(msg):
 def error(msg):
     print(f"[{now()}] [ERROR] {msg}")
 
-# -----------------------------------
-# Strip HTML for Ninja "text" version
-# -----------------------------------
-def strip_html(html: str) -> str:
+# ---------------------------
+# Strip HTML → for Ninja WYSIWYG 'text' field
+# ---------------------------
+def strip_html(html):
     return re.sub(r"<[^>]*>", "", html)
 
-# -----------------------------------
-# Simple JSON cache load/save
-# -----------------------------------
+# ---------------------------
+# Cache management
+# ---------------------------
 def load_cache(path):
     if not os.path.exists(path):
         return None
@@ -45,21 +45,18 @@ def save_cache(path, data):
     with open(path, "w") as f:
         json.dump(data, f, indent=2)
 
-# -----------------------------------
-# Check TTL expiration
-# -----------------------------------
 def cache_valid(cache, ttl):
     if cache is None:
         return False
     ts = cache.get("_timestamp")
-    if ts is None:
+    if not ts:
         return False
     age = (datetime.datetime.utcnow() - datetime.datetime.fromisoformat(ts)).total_seconds()
     return age < ttl
 
-# -----------------------------------
-# Create Basic Auth header (Huntress)
-# -----------------------------------
-def make_basic_auth(user, password):
-    raw = f"{user}:{password}".encode("utf-8")
+# ---------------------------
+# Huntress Basic Auth
+# ---------------------------
+def make_basic_auth(pub, priv):
+    raw = f"{pub}:{priv}".encode("utf-8")
     return base64.b64encode(raw).decode("utf-8")
