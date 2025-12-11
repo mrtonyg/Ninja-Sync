@@ -1,115 +1,59 @@
-# utils.py
-# Shared logging, cache handling, and helper utilities.
+"""
+utils.py
+Version: 2.0.1
+Author: Anthony George
+"""
 
 import os
 import json
 import time
-from datetime import datetime
-from .config import (
-    LOG_PATH,
-    HUNTRESS_CACHE_DIR,
-    AXCIENT_CACHE_DIR,
-    NINJA_CACHE_DIR
-)
+import requests
 
-# ------------------------------------------------------------
-# Logging utilities
-# ------------------------------------------------------------
-def log(msg):
-    ts = datetime.utcnow().strftime("[%Y-%m-%d %H:%M:%S]")
-    line = f"{ts} {msg}"
-    print(line)
-    try:
-        with open(LOG_PATH, "a") as f:
-            f.write(line + "\n")
-    except Exception:
-        pass
 
-def log_error(msg, url=None, params=None, resp=None, exc=None):
-    log("[ERROR] " + msg)
-    if url:
-        log(f"  URL: {url}")
-    if params:
-        log(f"  Params: {params}")
-    if resp is not None:
-        try:
-            log(f"  HTTP Status: {resp.status_code}")
-            log(f"  Response: {resp.text}")
-        except Exception:
-            pass
-    if exc:
-        log(f"  Exception: {repr(exc)}")
+# -------------------------------------------------------------------------
+# Logging
+# -------------------------------------------------------------------------
+def log(msg, level="INFO"):
+    ts = time.strftime("%Y-%m-%d %H:%M:%S")
+    print(f"[{ts}] [{level}] {msg}")
 
-# ------------------------------------------------------------
-# JSON utilities
-# ------------------------------------------------------------
-def json_save(path, data):
-    try:
-        with open(path, "w") as f:
-            json.dump(data, f, indent=2)
-    except Exception as e:
-        log_error(f"Failed saving JSON to {path}", exc=e)
 
-def json_load(path):
+# -------------------------------------------------------------------------
+# Cache Handling
+# -------------------------------------------------------------------------
+def load_cache(path, max_age):
+    if not os.path.exists(path):
+        return None
+
+    age = time.time() - os.path.getmtime(path)
+    if age > max_age:
+        return None
+
     try:
         with open(path, "r") as f:
             return json.load(f)
     except:
         return None
 
-# ------------------------------------------------------------
-# Cache clearing
-# ------------------------------------------------------------
-def clear_cache_dir(path):
-    if os.path.isdir(path):
-        for root, dirs, files in os.walk(path, topdown=False):
-            for name in files:
-                try:
-                    os.remove(os.path.join(root, name))
-                except:
-                    pass
-            for name in dirs:
-                try:
-                    os.rmdir(os.path.join(root, name))
-                except:
-                    pass
-        try:
-            os.rmdir(path)
-        except:
-            pass
-        log(f"[CACHE] Cleared: {path}")
-    else:
-        log(f"[CACHE] Not found: {path}")
 
-def clear_huntress_cache():
-    clear_cache_dir(HUNTRESS_CACHE_DIR)
+def save_cache(path, data):
+    os.makedirs(os.path.dirname(path), exist_ok=True)
+    with open(path, "w") as f:
+        json.dump(data, f, indent=2)
 
-def clear_axcient_cache():
-    clear_cache_dir(AXCIENT_CACHE_DIR)
 
-def clear_ninja_cache():
-    clear_cache_dir(NINJA_CACHE_DIR)
-
-def clear_all_caches():
-    log("[CACHE] Clearing ALL caches...")
-    clear_huntress_cache()
-    clear_axcient_cache()
-    clear_ninja_cache()
-    log("[CACHE] All caches cleared.")
-
-# ------------------------------------------------------------
-# Formatting helpers
-# ------------------------------------------------------------
-def safe_str(value):
-    return value if value not in (None, "", []) else "Unknown"
-
-def ic_status(v):
-    if not v:
-        return "⚪"
-    v=v.lower()
-    if "success" in v or "normal" in v or "healthy" in v or "protected" in v or "compliant" in v:
-        return "🟢"
-    if "warn" in v or "warning" in v:
-        return "🟡"
-    return "🔴"
-
+# -------------------------------------------------------------------------
+# HTTP helper with soft-fail preflight
+# -------------------------------------------------------------------------
+def http_get(url, headers=None, params=None, soft=False):
+    try:
+        r = requests.get(url, headers=headers, params=params, timeout=30)
+        if not r.ok:
+            if not soft:
+                log(f"HTTP GET failed {r.status_code}: {r.text}", "ERROR")
+            return (None if soft else r)
+        return r
+    except Exception as ex:
+        if not soft:
+            log(f"HTTP GET Exception: {ex}", "ERROR")
+        return None
