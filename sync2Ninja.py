@@ -1,19 +1,34 @@
 """
 sync2Ninja.py
-Version: 2.0.1
+Version: 2.0.2
 Author: Anthony George
+
+Main synchronization engine:
+    - Preflight validation (soft fail)
+    - Fetch Huntress agents + org names
+    - Fetch Axcient backup devices
+    - Fetch NinjaOne devices
+    - Match by displayName/dnsHostname/systemName
+    - Update *two* separate Ninja fields:
+        * huntressStatus
+        * backupStatus
 """
 
-import sys
 from mm_sync.utils import log
 from mm_sync.huntress import preflight_huntress, pull_huntress
 from mm_sync.axcient import preflight_axcient, pull_axcient
 from mm_sync.ninja_api import preflight_ninja, pull_ninja_devices, update_custom_field
 from mm_sync.matching import find_device_match
 
+# NEW: HTML builder module restored
+from mm_sync.html_builder import (
+    build_huntress_section,
+    build_axcient_section,
+)
+
 
 # -------------------------------------------------------------------------
-# Preflight Orchestration
+# PRE-FLIGHT CHECKS
 # -------------------------------------------------------------------------
 def preflight_all():
     log("Running preflight checks...")
@@ -33,56 +48,62 @@ def preflight_all():
 
 
 # -------------------------------------------------------------------------
-# Build HTML fragment for Axcient device
-# -------------------------------------------------------------------------
-def make_backup_html(dev):
-    status = dev["current_health_status"]["status"]
-    ts = dev["current_health_status"]["timestamp"]
-
-    av = dev.get("latest_autoverify_details")
-    av_status = av.get("status") if av else "unknown"
-    av_ts = av.get("timestamp") if av else "unknown"
-
-    cloud_rp = dev.get("latest_cloud_rp", "unknown")
-
-    html = f"""
-Backup Status
--------------
-Name: {dev['name']}
-Current Status: {status} ({ts})
-
-AutoVerify: {av_status} ({av_ts})
-Latest Cloud RP: {cloud_rp}
-"""
-    return html.strip()
-
-
-# -------------------------------------------------------------------------
-# MAIN SYNC
+# MAIN SYNCHRONIZATION
 # -------------------------------------------------------------------------
 def main():
-    log("[START] sync2Ninja")
+    log("[START] sync2Ninja 2.0.2")
 
     preflight_all()
 
-    huntress = pull_huntress()
-    axcient = pull_axcient()
-    ninja = pull_ninja_devices()
+    # Load Huntress and org names
+    h_data = pull_huntress()
+    agents = h_data["agents"]
+    orgs = h_data["orgs"]
 
-    for dev in axcient:
-        ninja_match = find_device_match(dev["name"], ninja)
-        if not ninja_match:
+    # Load Axcient devices
+    axcient_devices = pull_axcient()
+
+    # Load Ninja devices
+    ninja_devices = pull_ninja_devices()
+
+    # ------------------------------------------------------------------
+    # Process Huntress agents → huntressStatus field
+    # ------------------------------------------------------------------
+    for agent in agents:
+        hostname = agent.get("hostname", "").lower()
+        org_id = agent.get("organization_id")
+        org_name = orgs.get(org_id, "Unknown")
+
+        match = find_device_match(hostname, ninja_devices)
+        if not match:
             continue
 
-        device_id = ninja_match["id"]
-        html = make_backup_html(dev)
+        device_id = match["id"]
+        section = build_huntress_section(agent, org_name)
 
-        payload = {"backupStatus": html}
+        payload = {"huntressStatus": section}
         if update_custom_field(device_id, payload):
-            log(f"Updated backupStatus for {dev['name']} → NinjaID {device_id}", "OK")
+            log(f"Updated huntressStatus for {hostname} → NinjaID {device_id}", "OK")
 
-    log("[DONE] Sync complete.")
+    # ------------------------------------------------------------------
+    # Process Axcient backups → backupStatus field
+    # ------------------------------------------------------------------
+    for dev in axcient_devices:
+        name = dev.get("name", "").lower()
+        match = find_device_match(name, ninja_devices)
+        if not match:
+            continue
+
+        device_id = match["id"]
+        section = build_axcient_section(dev)
+
+        payload = {"backupStatus": section}
+        if update_custom_field(device_id, payload):
+            log(f"Updated backupStatus for {name} → NinjaID {device_id}", "OK")
+
+    log("[DONE] sync2Ninja Complete.")
 
 
+# -------------------------------------------------------------------------
 if __name__ == "__main__":
     main()

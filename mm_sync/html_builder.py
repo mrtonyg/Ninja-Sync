@@ -1,60 +1,92 @@
 """
-matching.py
-Version: 2.0.1
+html_builder.py
+Version: 2.0.2
 Author: Anthony George
+
+Purpose:
+    Provides formatted WYSIWYG-safe output blocks for NinjaOne custom fields.
+    Output uses aligned monospace-style spacing because Ninja strips <table>,
+    inline CSS, spans, and most other markup.
+
+Supports:
+    - Huntress agent status formatting
+    - Axcient backup device status formatting
 """
 
-def glyph(status):
-    if not status:
-        return "⚪"
-    status = status.lower()
-    if "normal" in status or "protected" in status or "success" in status:
-        return "🟢"
-    if "warn" in status:
-        return "🟡"
-    return "🔴"
+# -------------------------------------------------------------------------
+# Utility: pad fields for clean aligned output
+# -------------------------------------------------------------------------
+def align(label, value, width=20):
+    """
+    Produces consistent, readable output in NinjaOne's WYSIWYG text field.
+    """
+    label_block = f"{label}:".ljust(width)
+    return f"{label_block}{value}"
 
-def line(label, value):
-    return f"<b>{label}:</b> {value}<br>"
 
-def section(title):
-    return f"<h3>{title}</h3>"
+# -------------------------------------------------------------------------
+# Huntress Section Builder
+# -------------------------------------------------------------------------
+def build_huntress_section(agent, org_name):
+    """
+    agent: Huntress agent object from pull_huntress()['agents']
+    org_name: Resolved organization name for display
+    """
 
-def build_huntress_html(agent, org):
-    html = section("Huntress Status")
+    return (
+f"""Huntress Status
+----------------
+{align("Device Name", agent.get("hostname", "unknown"))}
+{align("Organization", org_name)}
+{align("Serial Number", agent.get("serial_number", "unknown"))}
+{align("Operating System", agent.get("os", "unknown"))}
+{align("Platform", agent.get("platform", "unknown"))}
+{align("Internal IP", agent.get("ipv4_address", "unknown"))}
+{align("External IP", agent.get("external_ip", "unknown"))}
 
-    html += line("Device", agent.get("hostname"))
-    html += line("Organization", org)
-    html += line("Serial", agent.get("serial_number"))
-    html += line("OS", agent.get("os"))
-    html += line("Platform", agent.get("platform"))
-    html += line("Internal IP", agent.get("ipv4_address"))
-    html += line("External IP", agent.get("external_ip"))
-    html += line("Last Callback", agent.get("last_callback_at"))
-    html += line("Last Survey", agent.get("last_survey_at"))
-    html += line("Agent Version", agent.get("version"))
-    html += line("EDR Version", agent.get("edr_version"))
-    html += "<br>"
+Times
+{align("Last Callback", agent.get("last_callback_at", "unknown"))}
+{align("Last Survey", agent.get("last_survey_at", "unknown"))}
+{align("Updated At", agent.get("updated_at", "unknown"))}
 
-    html += line("Defender Status", f"{glyph(agent.get('defender_status'))} {agent.get('defender_status')}")
-    html += line("Defender Substatus", f"{glyph(agent.get('defender_substatus'))} {agent.get('defender_substatus')}")
-    html += line("Defender Policy", f"{glyph(agent.get('defender_policy_status'))} {agent.get('defender_policy_status')}")
-    html += line("Firewall Status", f"{glyph(agent.get('firewall_status'))} {agent.get('firewall_status')}")
-    return html
+Versions
+{align("Agent Version", agent.get("version", "unknown"))}
+{align("EDR Version", agent.get("edr_version", "unknown"))}
 
-def build_axcient_html(d):
-    html = section("Backup Status")
+Status
+{align("Defender Status", agent.get("defender_status", "unknown"))}
+{align("Defender Substatus", agent.get("defender_substatus", "unknown"))}
+{align("Policy Status", agent.get("defender_policy_status", "unknown"))}
+{align("Firewall Status", agent.get("firewall_status", "unknown"))}
+""").strip()
 
-    html += line("Device", d.get("name"))
-    stat = d.get("current_health_status", {})
-    html += line("Current Status", f"{glyph(stat.get('status'))} {stat.get('status')}")
-    html += line("Status Time", stat.get("timestamp"))
 
-    av = d.get("latest_autoverify_details")
-    if av:
-        html += line("AutoVerify", f"{glyph(av.get('status'))} {av.get('status')}")
-        html += line("AutoVerify Time", av.get("timestamp"))
+# -------------------------------------------------------------------------
+# Axcient Backup Section Builder
+# -------------------------------------------------------------------------
+def build_axcient_section(dev):
+    """
+    dev: Axcient device object from pull_axcient()
+    """
 
-    html += line("Agent Version", d.get("agent_version"))
-    html += line("Latest Cloud RP", d.get("latest_cloud_rp"))
-    return html
+    chs = dev.get("current_health_status", {})
+    av = dev.get("latest_autoverify_details", {})
+
+    current_status = chs.get("status", "unknown")
+    current_ts = chs.get("timestamp", "unknown")
+
+    av_status = av.get("status", "unknown")
+    av_ts = av.get("timestamp", "unknown")
+
+    cloud_rp = dev.get("latest_cloud_rp", "unknown")
+
+    return (
+f"""Backup Status
+--------------
+{align("Device Name", dev.get("name", "unknown"))}
+{align("Current Status", f"{current_status} ({current_ts})")}
+{align("AutoVerify", f"{av_status} ({av_ts})")}
+{align("Latest Cloud RP", cloud_rp)}
+{align("Agent Version", dev.get("agent_version", "unknown"))}
+""").strip()
+
