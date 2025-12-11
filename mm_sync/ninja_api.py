@@ -1,15 +1,15 @@
 """
 ninja_api.py
-Version: 2.0.4
+Version: 2.0.5
 Author: Anthony George
 
-Handles NinjaOne OAuth2 authentication and device/custom-field APIs.
+Handles NinjaOne OAuth2, device inventory, and WYSIWYG custom field updates.
 """
 
 import time
 import requests
 
-from mm_sync.utils import log, load_cache, save_cache
+from mm_sync.utils import log, strip_html, load_cache, save_cache
 from mm_sync.config import ENDPOINTS, NINJA_CACHE, CACHE_TTL
 from mm_sync import secrets
 
@@ -21,7 +21,7 @@ TOKEN_CACHE = {
 
 
 # -------------------------------------------------------------------------
-# INTERNAL: Request OAuth Token
+# INTERNAL: Get OAuth Token
 # -------------------------------------------------------------------------
 def _fetch_token():
     url = ENDPOINTS["ninja"]["auth"]
@@ -30,7 +30,7 @@ def _fetch_token():
         "grant_type": "client_credentials",
         "client_id": secrets.NINJA_CLIENT_ID,
         "client_secret": secrets.NINJA_CLIENT_SECRET,
-        "scope": "monitoring management control",     # REQUIRED
+        "scope": "monitoring management control",
     }
 
     try:
@@ -43,7 +43,6 @@ def _fetch_token():
         data = r.json()
         TOKEN_CACHE["token"] = data["access_token"]
         TOKEN_CACHE["expires"] = time.time() + data.get("expires_in", 3600) - 30
-
         return TOKEN_CACHE["token"]
 
     except Exception as ex:
@@ -51,31 +50,25 @@ def _fetch_token():
         return None
 
 
-# -------------------------------------------------------------------------
-# PUBLIC: Get token (cached)
-# -------------------------------------------------------------------------
 def ninja_token():
     if TOKEN_CACHE["token"] and time.time() < TOKEN_CACHE["expires"]:
         return TOKEN_CACHE["token"]
-
     return _fetch_token()
 
 
 # -------------------------------------------------------------------------
-# Preflight
+# PRE-FLIGHT
 # -------------------------------------------------------------------------
 def preflight_ninja():
-    token = ninja_token()
-    if not token:
-        log("Ninja preflight failed (soft)", "WARN")
-        return False
-
-    log("Ninja preflight OK")
-    return True
+    if ninja_token():
+        log("Ninja preflight OK")
+        return True
+    log("Ninja preflight failed (soft)", "WARN")
+    return False
 
 
 # -------------------------------------------------------------------------
-# Fetch Ninja Devices
+# DEVICE INVENTORY
 # -------------------------------------------------------------------------
 def pull_ninja_devices():
     cached = load_cache(NINJA_CACHE, CACHE_TTL["ninja"])
@@ -105,28 +98,44 @@ def pull_ninja_devices():
 
 
 # -------------------------------------------------------------------------
-# Update Custom Field
+# CUSTOM FIELD UPDATE (WYSIWYG FIX)
 # -------------------------------------------------------------------------
-def update_custom_field(device_id, fields: dict):
+def update_custom_field(device_id, field_name, html_value, src_name=None, ninja_name=None):
+    """
+    Updates a NinjaOne custom field that supports WYSIWYG HTML content.
+    Automatically supplies both 'text' and 'html' payloads.
+    """
+
     token = ninja_token()
     if not token:
         return False
 
     url = ENDPOINTS["ninja"]["custom_fields"].format(id=device_id)
 
-    r = requests.post(
-        url,
-        json=fields,
-        headers={"Authorization": f"Bearer {token}", "Content-Type": "application/json"},
-        timeout=20,
-    )
+    payload = {
+        field_name: {
+            "text": strip_html(html_value) or "",
+            "html": html_value or ""
+        }
+    }
+
+    headers = {
+        "Authorization": f"Bearer {token}",
+        "Content-Type": "application/json"
+    }
+
+    r = requests.patch(url, json=payload, headers=headers, timeout=20)
 
     if not r.ok:
-        log("Failed updating Ninja custom field", "ERROR")
+        log("Failed updating WYSIWYG custom field", "ERROR")
         log(f"  URL: {url}", "ERROR")
-        log(f"  Payload: {fields}", "ERROR")
+        log(f"  Payload: {payload}", "ERROR")
         log(f"  HTTP Status: {r.status_code}", "ERROR")
         log(f"  Response Body: {r.text}", "ERROR")
         return False
+
+    pretty_src = src_name or "?"
+    pretty_ninja = ninja_name or field_name
+    log(f"[OK] Updated {field_name} from {pretty_src} → {pretty_ninja} (device {device_id})")
 
     return True
