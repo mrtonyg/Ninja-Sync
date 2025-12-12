@@ -23,61 +23,67 @@ class HuntressAPI:
         }
 
     def get_agents(self):
-        url = f"{config.HUNTRESS_BASE_URL}/v1/agents"
-        limit = 100
-        next_token = None
+        url = f"{self.base}/v1/agents"
+        limit = 50
+        token = None
         all_agents = []
 
         while True:
             params = {"limit": limit}
-            if next_token:
-                params["page_token"] = next_token
+            if token:
+                params["page_token"] = token
 
             resp = requests.get(url, headers=self.headers(), params=params, timeout=20)
 
             if resp.status_code != 200:
                 warn(f"Huntress GET failed {url}: {resp.status_code} {resp.text}")
-                return all_agents  # soft fail
+                return all_agents  # soft fail to allow sync to continue
 
             data = resp.json()
-            batch = data.get("agents", [])
 
-            all_agents.extend(batch)
+            agents = data.get("agents", [])
+            pagination = data.get("pagination", {})
 
-            next_token = data.get("page_info", {}).get("next_page_token")
+            all_agents.extend(agents)
 
-            if not next_token:
+            token = pagination.get("next_page_token")
+
+            if not token:
                 break
 
         return all_agents
 
 
+
     def get_orgs(self):
-        url = f"{config.HUNTRESS_BASE_URL}/v1/organizations"
-        limit = 100
-        next_token = None
+        url = f"{self.base}/v1/organizations"
+        limit = 50
+        token = None
         all_orgs = []
 
         while True:
             params = {"limit": limit}
-            if next_token:
-                params["page_token"] = next_token
+            if token:
+                params["page_token"] = token
 
             resp = requests.get(url, headers=self.headers(), params=params, timeout=20)
 
             if resp.status_code != 200:
                 warn(f"Huntress GET failed {url}: {resp.status_code} {resp.text}")
-                return all_orgs  # soft fail
+                return all_orgs
 
             data = resp.json()
-            batch = data.get("organizations", [])
 
-            all_orgs.extend(batch)
+            orgs = data.get("organizations", [])
+            pagination = data.get("pagination", {})
 
-            next_token = data.get("page_info", {}).get("next_page_token")
+            all_orgs.extend(orgs)
 
-            if not next_token:
+            token = pagination.get("next_page_token")
+
+            if not token:
                 break
 
         return all_orgs
+
 
