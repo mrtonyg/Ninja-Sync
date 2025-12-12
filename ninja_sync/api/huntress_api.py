@@ -21,39 +21,39 @@ class HuntressAPI:
         }
 
     def get_agents(self):
-    url = f"{self.base}/v1/agents"
-    page = 1
-    all_agents = []
+        url = f"{config.HUNTRESS_BASE_URL}/v1/agents"
+        page = 1
+        all_agents = []
 
-    while True:
-        resp = requests.get(
-            f"{url}?page={page}",
-            headers=self.headers(),
-            timeout=15
-        )
+        while True:
+            resp = requests.get(
+                f"{url}?page={page}",
+                headers=self.headers(),
+                timeout=15
+            )
 
-        if resp.status_code != 200:
-            warn(f"Huntress GET failed {url}: {resp.status_code} {resp.text}")
-            return all_agents  # soft fail
+            if resp.status_code != 200:
+                warn(f"Huntress GET failed {url}: {resp.status_code} {resp.text}")
+                return all_agents  # soft fail
 
-        data = resp.json()
-        batch = data.get("agents", [])
+            data = resp.json()
+            batch = data.get("agents", [])
 
-        if not batch:
-            break
+            if not batch:
+                break
 
-        all_agents.extend(batch)
+            all_agents.extend(batch)
 
-        # Stop if we received fewer than the page size (default = 100)
-        if len(batch) < 100:
-            break
+            # Stop if we received fewer than the page size (default = 100)
+            if len(batch) < 100:
+                break
 
-        page += 1
+            page += 1
 
     return all_agents
 
     def get_orgs(self):
-        url = f"{self.base}/v1/organizations"
+        url = f"{config.HUNTRESS_BASE_URL}/v1/organizations"
         page = 1
         all_orgs = []
 
