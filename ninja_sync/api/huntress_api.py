@@ -21,16 +21,17 @@ class HuntressAPI:
         }
 
     def get_agents(self):
-        url = f"{config.HUNTRESS_BASE_URL}/v1/agents"
-        page = 1
+        url = f"{self.base}/v1/agents"
+        limit = 100
+        next_token = None
         all_agents = []
 
         while True:
-            resp = requests.get(
-                f"{url}?page={page}",
-                headers=self.headers(),
-                timeout=15
-            )
+            params = {"limit": limit}
+            if next_token:
+                params["page_token"] = next_token
+
+            resp = requests.get(url, headers=self.headers(), params=params, timeout=20)
 
             if resp.status_code != 200:
                 warn(f"Huntress GET failed {url}: {resp.status_code} {resp.text}")
@@ -39,30 +40,28 @@ class HuntressAPI:
             data = resp.json()
             batch = data.get("agents", [])
 
-            if not batch:
-                break
-
             all_agents.extend(batch)
 
-            # Stop if we received fewer than the page size (default = 100)
-            if len(batch) < 100:
-                break
+            next_token = data.get("page_info", {}).get("next_page_token")
 
-            page += 1
+            if not next_token:
+                break
 
         return all_agents
 
+
     def get_orgs(self):
-        url = f"{config.HUNTRESS_BASE_URL}/v1/organizations"
-        page = 1
+        url = f"{self.base}/v1/organizations"
+        limit = 100
+        next_token = None
         all_orgs = []
 
         while True:
-            resp = requests.get(
-                f"{url}?page={page}",
-                headers=self.headers(),
-                timeout=15
-            )
+            params = {"limit": limit}
+            if next_token:
+                params["page_token"] = next_token
+
+            resp = requests.get(url, headers=self.headers(), params=params, timeout=20)
 
             if resp.status_code != 200:
                 warn(f"Huntress GET failed {url}: {resp.status_code} {resp.text}")
@@ -71,15 +70,12 @@ class HuntressAPI:
             data = resp.json()
             batch = data.get("organizations", [])
 
-            if not batch:
-                break
-
             all_orgs.extend(batch)
 
-            if len(batch) < 100:
-                break
+            next_token = data.get("page_info", {}).get("next_page_token")
 
-            page += 1
+            if not next_token:
+                break
 
         return all_orgs
 
