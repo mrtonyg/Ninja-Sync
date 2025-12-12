@@ -50,7 +50,7 @@ class HuntressAPI:
 
             page += 1
 
-    return all_agents
+        return all_agents
 
     def get_orgs(self):
         url = f"{config.HUNTRESS_BASE_URL}/v1/organizations"
