@@ -10,7 +10,9 @@ def row(label, value):
 def build_huntress_html(agent, org_map):
     if not agent:
         return "<b>No Huntress data.</b>", "No Huntress data."
-
+    hostname = agent.get("hostname") or "Unknown"
+    os_name = agent.get("os") or "Unknown"
+    os_build = agent.get("os_build_version")
     org_name = org_map.get(str(agent.get("organization_id")), "Unknown")
     os_full = f"{os_name} (Build {os_build})" if os_build else os_name
     defender_status = agent.get("defender_status") or "Unknown"
