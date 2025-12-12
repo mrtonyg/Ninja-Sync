@@ -16,7 +16,7 @@ class HuntressAPI:
         #key = make_basic_auth(HUNTRESS_PUBLIC_KEY, HUNTRESS_PRIVATE_KEY)
         #self.headers = {"Authorization": f"Basic {key}"}
         raw = f"{HUNTRESS_PUBLIC_KEY}:{HUNTRESS_PRIVATE_KEY}"
-        token = base64.b64encode(raw.encode("utf-8")).decode("utf-8")
+        self._auth_token = base64.b64encode(raw.encode("utf-8")).decode("utf-8")
         #self.headers = {
         #    "Authorization": f"Basic {token}",
         #    "Accept": "application/json"
@@ -24,7 +24,7 @@ class HuntressAPI:
     def headers(self):
         """Return proper Basic Auth header each time."""
         return {
-            "Authorization": f"Basic {token}",
+            "Authorization": f"Basic {self._auth_token}",
             "Accept": "application/json"
         }
 
