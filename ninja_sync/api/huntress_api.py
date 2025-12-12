@@ -17,10 +17,16 @@ class HuntressAPI:
         #self.headers = {"Authorization": f"Basic {key}"}
         raw = f"{HUNTRESS_PUBLIC_KEY}:{HUNTRESS_PRIVATE_KEY}"
         token = base64.b64encode(raw.encode("utf-8")).decode("utf-8")
-        self.headers = {
-            "Authorization": f"Basic {token}",
-            "Accept": "application/json"
-        }
+        #self.headers = {
+        #    "Authorization": f"Basic {token}",
+        #    "Accept": "application/json"
+        #}
+        def headers(self):
+            """Return proper Basic Auth header each time."""
+            return {
+                "Authorization": f"Basic {token}",
+                "Accept": "application/json"
+            }
 
     def get_agents(self):
         url = f"{self.base}/v1/agents"
