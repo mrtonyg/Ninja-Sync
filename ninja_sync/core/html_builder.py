@@ -3,7 +3,27 @@
 # Author: Anthony George
 
 from datetime import datetime
+from zoneinfo import ZoneInfo
 
+def localize_huntress_timestamp(utc_str, tz_name="America/Detroit"):
+    """
+    Convert Huntress UTC timestamp into local timezone.
+    Returns formatted local time string.
+    """
+    if not utc_str:
+        return "Unknown"
+
+    try:
+        # Parse UTC timestamp
+        dt = datetime.fromisoformat(utc_str.replace("Z", "+00:00"))
+        
+        # Convert to local timezone
+        local_dt = dt.astimezone(ZoneInfo(tz_name))
+        
+        # Format nicely
+        return local_dt.strftime("%Y-%m-%d %H:%M:%S %Z")
+    except Exception:
+        return utc_str  # fallback to raw string
 def row(label, value):
     return f"<b>{label}:</b> {value}<br>"
 
@@ -24,8 +44,9 @@ def build_huntress_html(agent, org_map):
     agent_version = agent.get("version") or "Unknown"
     edr_version = agent.get("edr_version") or "Unknown"
 
-    last_callback = agent.get("last_callback_at") or "Unknown"
-
+    #last_callback = agent.get("last_callback_at") or "Unknown"
+    raw_last_callback = agent.get("last_callback_at") or "Unknown"
+    last_callback = localize_huntress_timestamp(raw_last_callback)
     html = (
         "<b>Huntress Status</b><br>"
         f"{row('Device Name', agent.get('hostname'))}"
