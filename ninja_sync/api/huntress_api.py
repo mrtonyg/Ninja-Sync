@@ -10,7 +10,8 @@ from ..core import config
 from ..core.secrets import HUNTRESS_PUBLIC_KEY, HUNTRESS_PRIVATE_KEY
 
 class HuntressAPI:
-    def __init__(self):
+    def __init__(self, config):
+        self.config = config
         self.base = config.HUNTRESS_BASE_URL
         #key = make_basic_auth(HUNTRESS_PUBLIC_KEY, HUNTRESS_PRIVATE_KEY)
         #self.headers = {"Authorization": f"Basic {key}"}
