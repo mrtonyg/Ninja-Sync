@@ -2,6 +2,7 @@
 # Version: 2.0.9
 # Author: Anthony George
 
+import base64
 import requests
 from ..core.logger import warn
 from ..core.utils import make_basic_auth
