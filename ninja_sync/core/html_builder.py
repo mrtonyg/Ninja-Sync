@@ -12,14 +12,26 @@ def build_huntress_html(agent, org_map):
         return "<b>No Huntress data.</b>", "No Huntress data."
 
     org_name = org_map.get(str(agent.get("organization_id")), "Unknown")
+    os_full = f"{os_name} (Build {os_build})" if os_build else os_name
+    defender_status = agent.get("defender_status") or "Unknown"
+    defender_policy = agent.get("defender_policy_status") or "Unknown"
+    defender_substatus = agent.get("defender_substatus") or "Unknown"
+
+    firewall = agent.get("firewall_status") or "Unknown"
+
+    agent_version = agent.get("version") or "Unknown"
+    edr_version = agent.get("edr_version") or "Unknown"
+
+    last_callback = agent.get("last_callback_at") or "Unknown"
 
     html = (
         "<b>Huntress Status</b><br>"
         f"{row('Device Name', agent.get('hostname'))}"
         f"{row('Organization', org_name)}"
-        f"{row('OS', agent.get('os_info', {}).get('os', 'Unknown'))}"
-        f"{row('Agent Version', agent.get('agent_version', 'N/A'))}"
-        f"{row('Last Callback', agent.get('last_callback', 'N/A'))}"
+        f"{row('OS', os_full)}"
+        f"{row('Defender',f'{defender_status}, {defender_policy}, {defender_substatus}')}"
+        f"{row('Agent Version', f'{agent_version}, EDR {edr_version}')}"
+        f"{row('Last Callback', last_callback)}"
     )
 
     return html, html.replace("<br>", "\n")
