@@ -15,18 +15,24 @@ from ninja_sync.core.matching import match_by_name
 def preflight(huntress, ninja, axcient):
     info("Running preflight checks...")
 
+    huntress_ok = False
+    ninja_ok = False
+    axcient_ok = False
+
     # Huntress
     agents = huntress.get_agents()
     if not agents:
         warn("Huntress preflight failed (soft)")
     else:
         info("Huntress preflight OK")
+        huntress_ok = True
 
     # Ninja
     if not ninja.authenticate():
         warn("Ninja preflight failed (soft)")
     else:
         info("Ninja preflight OK")
+        ninja_ok = True
 
     # Axcient
     devices = axcient.get_devices()
@@ -34,8 +40,22 @@ def preflight(huntress, ninja, axcient):
         warn("Axcient preflight failed (soft)")
     else:
         info("Axcient preflight OK")
+        axcient_ok = True
 
-    warn("One or more preflight checks may have failed. Continuing...")
+    # Evaluate overall preflight status
+    failed = []
+    if not huntress_ok:
+        failed.append("Huntress")
+    if not ninja_ok:
+        failed.append("Ninja")
+    if not axcient_ok:
+        failed.append("Axcient")
+
+    if failed:
+        warn(f"Preflight warnings: {', '.join(failed)} (soft fail, continuing...)")
+    else:
+        info("Preflight completed successfully.")
+
 
 def main():
     info("[START] sync2Ninja 2.0.9")

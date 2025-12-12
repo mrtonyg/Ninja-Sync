@@ -21,43 +21,65 @@ class HuntressAPI:
         }
 
     def get_agents(self):
-        url = f"{config.HUNTRESS_BASE_URL}/agents"
-        agents = []
-        page = 1
+    url = f"{self.base}/v1/agents"
+    page = 1
+    all_agents = []
 
-        while True:
-            resp = requests.get(url, headers=self.headers, params={"page": page})
-            if resp.status_code != 200:
-                warn(f"Huntress GET failed {url}: {resp.status_code} {resp.text}")
-                break
+    while True:
+        resp = requests.get(
+            f"{url}?page={page}",
+            headers=self.headers(),
+            timeout=15
+        )
 
-            data = resp.json()
-            chunk = data.get("agents", [])
-            agents.extend(chunk)
+        if resp.status_code != 200:
+            warn(f"Huntress GET failed {url}: {resp.status_code} {resp.text}")
+            return all_agents  # soft fail
 
-            if not data.get("pagination", {}).get("has_next_page"):
-                break
-            page += 1
+        data = resp.json()
+        batch = data.get("agents", [])
 
-        return agents
+        if not batch:
+            break
+
+        all_agents.extend(batch)
+
+        # Stop if we received fewer than the page size (default = 100)
+        if len(batch) < 100:
+            break
+
+        page += 1
+
+    return all_agents
 
     def get_orgs(self):
-        url = f"{config.HUNTRESS_BASE_URL}/organizations"
-        orgs = []
+        url = f"{self.base}/v1/organizations"
         page = 1
+        all_orgs = []
 
         while True:
-            resp = requests.get(url, headers=self.headers, params={"page": page})
+            resp = requests.get(
+                f"{url}?page={page}",
+                headers=self.headers(),
+                timeout=15
+            )
+
             if resp.status_code != 200:
                 warn(f"Huntress GET failed {url}: {resp.status_code} {resp.text}")
-                break
+                return all_orgs  # soft fail
 
             data = resp.json()
-            chunk = data.get("organizations", [])
-            orgs.extend(chunk)
+            batch = data.get("organizations", [])
 
-            if not data.get("pagination", {}).get("has_next_page"):
+            if not batch:
                 break
+
+            all_orgs.extend(batch)
+
+            if len(batch) < 100:
+                break
+
             page += 1
 
-        return orgs
+        return all_orgs
+
