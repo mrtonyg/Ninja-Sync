@@ -29,7 +29,7 @@ class HuntressAPI:
         }
 
     def get_agents(self):
-        url = f"{self.base}/v1/agents"
+        url = f"{self.base}/agents"
         limit = 50
         token = None
         all_agents = []
@@ -62,7 +62,7 @@ class HuntressAPI:
 
 
     def get_orgs(self):
-        url = f"{self.base}/v1/organizations"
+        url = f"{self.base}/organizations"
         limit = 50
         token = None
         all_orgs = []
