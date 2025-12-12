@@ -60,7 +60,7 @@ def preflight(huntress, ninja, axcient):
 def main():
     info("[START] sync2Ninja 2.0.9")
 
-    huntress = HuntressAPI()
+    huntress = HuntressAPI(config)
     ninja = NinjaAPI()
     axcient = AxcientAPI()
 
