@@ -21,12 +21,12 @@ class HuntressAPI:
         #    "Authorization": f"Basic {token}",
         #    "Accept": "application/json"
         #}
-        def headers(self):
-            """Return proper Basic Auth header each time."""
-            return {
-                "Authorization": f"Basic {token}",
-                "Accept": "application/json"
-            }
+    def headers(self):
+        """Return proper Basic Auth header each time."""
+        return {
+            "Authorization": f"Basic {token}",
+            "Accept": "application/json"
+        }
 
     def get_agents(self):
         url = f"{self.base}/v1/agents"
