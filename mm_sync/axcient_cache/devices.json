@@ -1,0 +1,2126 @@
+[
+    {
+        "agent_version": "2.43.1995",
+        "asio_endpoint_id": null,
+        "client_id": 46332,
+        "cloud_usage": 946246573248,
+        "current_health_status": {
+            "reason": null,
+            "status": "NORMAL",
+            "timestamp": "2025-07-28T17:35:53Z"
+        },
+        "d2c": true,
+        "device_details_page_url": "https://my.axcient.net/home/device/3504305",
+        "excluded_volumes": null,
+        "id": 3504305,
+        "ip_address": "169.254.218.76",
+        "is_password_protected": false,
+        "jobs": [
+            {
+                "health_status": "NORMAL",
+                "id": 7241502,
+                "latest_rp": "2026-04-05T10:55:00Z",
+                "name": "Cloud Backup Job",
+                "vault_id": 3835
+            }
+        ],
+        "latest_autoverify_details": {
+            "end_timestamp": "2026-03-30T03:03:28Z",
+            "id": "69c9e800bde6d417a78a75ec",
+            "is_healthy": true,
+            "rp": "2026-03-29T19:55:00Z",
+            "screenshot_thumbnail_url": "https://my.axcient.net/image/last_autoverify_thumbnail/6a5a3870544c6b346a355545473638485374373062675862626f5232306d31386d6a326c587375615a4857684e58314f316d432b4749484f7075684c65596458716c6853594d382f6c5577506d2b4b4c616d6f3d",
+            "screenshot_url": "https://my.axcient.net/image/last_autoverify_screenshot/2b627a702b623031623073414f6136426b345442786661364d4f7a334155302b68776a4246576945532b6b4353394b534b7a424a6a4f682f382b7939376646416b7a7436714f6343326153727477386a7073493d",
+            "start_timestamp": "2026-03-30T02:50:57Z",
+            "status": "success",
+            "timestamp": "2026-03-30T03:03:28Z"
+        },
+        "latest_cloud_rp": "2026-04-05T10:55:00Z",
+        "latest_local_rp": null,
+        "latest_vault_rp": null,
+        "local_cache_details": {
+            "enabled": false,
+            "last_successful_verification_timestamp": null,
+            "last_verification_timestamp": null,
+            "path": "",
+            "verification_status": null
+        },
+        "local_ps_id": "62c8489d3ae6bb0e41570b19",
+        "local_total": null,
+        "local_usage": null,
+        "name": "D-8CQ13601Q7",
+        "os": {
+            "bits": 64,
+            "os_name": "Windows 11 Home Core (version 2009) - 64-bit",
+            "os_type": "WINDOWS"
+        },
+        "previous_health_status": {
+            "reason": "OFFSITE_STATUS",
+            "status": "TROUBLED",
+            "timestamp": null
+        },
+        "product": "X360RECOVER",
+        "service_id": null,
+        "thresholds": {
+            "cloud_rp_threshold": null,
+            "local_rp_threshold": null,
+            "protection_threshold": {
+                "enabled": true,
+                "overridden": null,
+                "value": 4320
+            },
+            "vault_rp_threshold": null
+        },
+        "type": "WORKSTATION",
+        "vault_usage": null,
+        "vaults": [
+            {
+                "device_usage": 946246573248,
+                "id": 3835,
+                "latest_vault_rp": "2026-04-05T10:55:00Z",
+                "name": "rb-mediaman1.rb.atl.efscloud.net",
+                "service_id": "g2qz",
+                "type": "Cloud"
+            }
+        ],
+        "volumes": [
+            "C:\\"
+        ]
+    },
+    {
+        "agent_version": "3.13.1.2328",
+        "asio_endpoint_id": null,
+        "client_id": 38949,
+        "cloud_usage": 3708595676352,
+        "current_health_status": {
+            "reason": null,
+            "status": "NORMAL",
+            "timestamp": "2025-08-31T23:22:22Z"
+        },
+        "d2c": true,
+        "device_details_page_url": "https://my.axcient.net/home/device/3740388",
+        "excluded_volumes": null,
+        "id": 3740388,
+        "ip_address": "10.10.10.20",
+        "is_password_protected": false,
+        "jobs": [
+            {
+                "health_status": "NORMAL",
+                "id": 7829594,
+                "latest_rp": "2026-04-05T10:10:00Z",
+                "name": "Cloud Backup Job",
+                "vault_id": 3835
+            }
+        ],
+        "latest_autoverify_details": null,
+        "latest_cloud_rp": "2026-04-05T10:10:00Z",
+        "latest_local_rp": null,
+        "latest_vault_rp": null,
+        "local_cache_details": {
+            "enabled": false,
+            "last_successful_verification_timestamp": null,
+            "last_verification_timestamp": null,
+            "path": "",
+            "verification_status": null
+        },
+        "local_ps_id": "65297b4a3ae6bb3707521d69",
+        "local_total": null,
+        "local_usage": null,
+        "name": "w0.mediamanaged.net",
+        "os": {
+            "bits": 64,
+            "os_name": "Linux - Ubuntu (version 22.04) - 64-bit",
+            "os_type": "LINUX"
+        },
+        "previous_health_status": {
+            "reason": "OFFSITE_STATUS",
+            "status": "TROUBLED",
+            "timestamp": null
+        },
+        "product": "X360RECOVER",
+        "service_id": null,
+        "thresholds": {
+            "cloud_rp_threshold": null,
+            "local_rp_threshold": null,
+            "protection_threshold": {
+                "enabled": true,
+                "overridden": null,
+                "value": 1440
+            },
+            "vault_rp_threshold": null
+        },
+        "type": "SERVER",
+        "vault_usage": null,
+        "vaults": [
+            {
+                "device_usage": 3708595676352,
+                "id": 3835,
+                "latest_vault_rp": "2026-04-05T10:10:00Z",
+                "name": "rb-mediaman1.rb.atl.efscloud.net",
+                "service_id": "g2qz",
+                "type": "Cloud"
+            }
+        ],
+        "volumes": [
+            "/",
+            "/boot",
+            "/boot/efi"
+        ]
+    },
+    {
+        "agent_version": "2.43.1995",
+        "asio_endpoint_id": null,
+        "client_id": 56301,
+        "cloud_usage": 149598657216,
+        "current_health_status": {
+            "reason": null,
+            "status": "NORMAL",
+            "timestamp": "2024-02-14T21:23:34Z"
+        },
+        "d2c": true,
+        "device_details_page_url": "https://my.axcient.net/home/device/3799466",
+        "excluded_volumes": null,
+        "id": 3799466,
+        "ip_address": "10.9.250.8",
+        "is_password_protected": false,
+        "jobs": [
+            {
+                "health_status": "NORMAL",
+                "id": 7956867,
+                "latest_rp": "2026-04-05T08:16:00Z",
+                "name": "Cloud Backup Job",
+                "vault_id": 3835
+            }
+        ],
+        "latest_autoverify_details": {
+            "end_timestamp": "2026-04-04T21:23:29Z",
+            "id": "69d181513c277ea09203b991",
+            "is_healthy": true,
+            "rp": "2026-04-04T14:16:00Z",
+            "screenshot_thumbnail_url": "https://my.axcient.net/image/last_autoverify_thumbnail/6d775a4f4f2b71562f47424e6b31706b5837767a5733714a656c676d2b5835526c5546336b746a2f707775317168447a6a6c4b674457755543684b694665496d6d5950725955553446546b30644b33416665453d",
+            "screenshot_url": "https://my.axcient.net/image/last_autoverify_screenshot/654b74583875746d34596a61574159746676306f6c4234526548667564732b423445354b73374a4a4456493553774c466b374f63506d5339595565545546657745575136725444657039586c7645656c2f32413d",
+            "start_timestamp": "2026-04-04T20:20:57Z",
+            "status": "success",
+            "timestamp": "2026-04-04T21:23:29Z"
+        },
+        "latest_cloud_rp": "2026-04-05T08:16:00Z",
+        "latest_local_rp": null,
+        "latest_vault_rp": null,
+        "local_cache_details": {
+            "enabled": false,
+            "last_successful_verification_timestamp": null,
+            "last_verification_timestamp": null,
+            "path": "",
+            "verification_status": null
+        },
+        "local_ps_id": "65cd21323ae6bb53e593aa9e",
+        "local_total": null,
+        "local_usage": null,
+        "name": "proqavm.medstarambulance.com",
+        "os": {
+            "bits": 64,
+            "os_name": "Windows Server 2016 Standard (version 1607) - 64-bit",
+            "os_type": "WINDOWS"
+        },
+        "previous_health_status": {
+            "reason": "OFFSITE_NEVER_RUN",
+            "status": "WARNED",
+            "timestamp": null
+        },
+        "product": "X360RECOVER",
+        "service_id": null,
+        "thresholds": {
+            "cloud_rp_threshold": null,
+            "local_rp_threshold": null,
+            "protection_threshold": {
+                "enabled": true,
+                "overridden": null,
+                "value": 1440
+            },
+            "vault_rp_threshold": null
+        },
+        "type": "SERVER",
+        "vault_usage": null,
+        "vaults": [
+            {
+                "device_usage": 149598657216,
+                "id": 3835,
+                "latest_vault_rp": "2026-04-05T08:16:00Z",
+                "name": "rb-mediaman1.rb.atl.efscloud.net",
+                "service_id": "g2qz",
+                "type": "Cloud"
+            }
+        ],
+        "volumes": [
+            "C:\\"
+        ]
+    },
+    {
+        "agent_version": "2.43.1995",
+        "asio_endpoint_id": null,
+        "client_id": 56301,
+        "cloud_usage": 192031006848,
+        "current_health_status": {
+            "reason": null,
+            "status": "NORMAL",
+            "timestamp": "2024-02-15T01:39:01Z"
+        },
+        "d2c": true,
+        "device_details_page_url": "https://my.axcient.net/home/device/3799473",
+        "excluded_volumes": null,
+        "id": 3799473,
+        "ip_address": "10.10.0.10",
+        "is_password_protected": false,
+        "jobs": [
+            {
+                "health_status": "NORMAL",
+                "id": 7956877,
+                "latest_rp": "2026-04-05T08:16:00Z",
+                "name": "Cloud Backup Job",
+                "vault_id": 3835
+            }
+        ],
+        "latest_autoverify_details": {
+            "end_timestamp": "2026-04-04T11:08:29Z",
+            "id": "69d0f12d91907c4262e1d24a",
+            "is_healthy": true,
+            "rp": "2026-04-04T02:16:00Z",
+            "screenshot_thumbnail_url": "https://my.axcient.net/image/last_autoverify_thumbnail/625579493863656d4c4f586f7a7a6951713742392f467564746770485362357a513274746e5171376f4a33356e37656e624f7a596c5864544e5555305547485a6962504b4e5972373344314c5a32573133776b3d",
+            "screenshot_url": "https://my.axcient.net/image/last_autoverify_screenshot/545672396450757942426752393658594433585758544a783341485372387148447a584c2b3361494c696637774a5a463746444f5a4533422f4b777551586272325a5a4178374245613774393150684c566b493d",
+            "start_timestamp": "2026-04-04T10:50:58Z",
+            "status": "success",
+            "timestamp": "2026-04-04T11:08:29Z"
+        },
+        "latest_cloud_rp": "2026-04-05T08:16:00Z",
+        "latest_local_rp": null,
+        "latest_vault_rp": null,
+        "local_cache_details": {
+            "enabled": false,
+            "last_successful_verification_timestamp": null,
+            "last_verification_timestamp": null,
+            "path": "",
+            "verification_status": null
+        },
+        "local_ps_id": "65cd24853ae6bb53e593aaa1",
+        "local_total": null,
+        "local_usage": null,
+        "name": "msadc0.medstarambulance.com",
+        "os": {
+            "bits": 64,
+            "os_name": "Windows Server 2016 Standard (version 1607) - 64-bit",
+            "os_type": "WINDOWS"
+        },
+        "previous_health_status": {
+            "reason": "OFFSITE_NEVER_RUN",
+            "status": "WARNED",
+            "timestamp": null
+        },
+        "product": "X360RECOVER",
+        "service_id": null,
+        "thresholds": {
+            "cloud_rp_threshold": null,
+            "local_rp_threshold": null,
+            "protection_threshold": {
+                "enabled": true,
+                "overridden": null,
+                "value": 1440
+            },
+            "vault_rp_threshold": null
+        },
+        "type": "SERVER",
+        "vault_usage": null,
+        "vaults": [
+            {
+                "device_usage": 192031006848,
+                "id": 3835,
+                "latest_vault_rp": "2026-04-05T08:16:00Z",
+                "name": "rb-mediaman1.rb.atl.efscloud.net",
+                "service_id": "g2qz",
+                "type": "Cloud"
+            }
+        ],
+        "volumes": [
+            "C:\\"
+        ]
+    },
+    {
+        "agent_version": "2.43.1995",
+        "asio_endpoint_id": null,
+        "client_id": 56301,
+        "cloud_usage": 7902887028096,
+        "current_health_status": {
+            "reason": null,
+            "status": "NORMAL",
+            "timestamp": "2026-01-19T11:35:59Z"
+        },
+        "d2c": true,
+        "device_details_page_url": "https://my.axcient.net/home/device/3799475",
+        "excluded_volumes": null,
+        "id": 3799475,
+        "ip_address": "10.10.0.19",
+        "is_password_protected": false,
+        "jobs": [
+            {
+                "health_status": "NORMAL",
+                "id": 7956879,
+                "latest_rp": "2026-04-05T08:16:00Z",
+                "name": "Cloud Backup Job",
+                "vault_id": 3835
+            }
+        ],
+        "latest_autoverify_details": {
+            "end_timestamp": "2026-01-12T22:31:02Z",
+            "id": "696576266ba51af0504aa312",
+            "is_healthy": false,
+            "rp": "2026-01-12T10:16:00Z",
+            "screenshot_thumbnail_url": "https://my.axcient.net/image/last_autoverify_thumbnail/706367634544576d7338454a777362774a545037625677706262763468726e68464a58526c31532b674a53546b384675546d45762b4a35794d53626466386135773142546f6b5377787635484d6e47764f636f3d",
+            "screenshot_url": "https://my.axcient.net/image/last_autoverify_screenshot/724a654a67444f6535396242363541416b612f4338533636484d354b4d6646634e32546f6965436b514f7333506a686b726434744568726a4b4b736831656e61665a3042463179795062446a4e756e2b6c58383d",
+            "start_timestamp": "2026-01-12T21:20:59Z",
+            "status": "success",
+            "timestamp": "2026-01-12T22:31:02Z"
+        },
+        "latest_cloud_rp": "2026-04-05T08:16:00Z",
+        "latest_local_rp": null,
+        "latest_vault_rp": null,
+        "local_cache_details": {
+            "enabled": false,
+            "last_successful_verification_timestamp": null,
+            "last_verification_timestamp": null,
+            "path": "",
+            "verification_status": null
+        },
+        "local_ps_id": "65cd24883ae6bb53e593aaa2",
+        "local_total": null,
+        "local_usage": null,
+        "name": "zollfs.medstarambulance.com",
+        "os": {
+            "bits": 64,
+            "os_name": "Windows Server 2016 Standard (version 1607) - 64-bit",
+            "os_type": "WINDOWS"
+        },
+        "previous_health_status": {
+            "reason": "OFFSITE_STATUS",
+            "status": "TROUBLED",
+            "timestamp": null
+        },
+        "product": "X360RECOVER",
+        "service_id": null,
+        "thresholds": {
+            "cloud_rp_threshold": null,
+            "local_rp_threshold": null,
+            "protection_threshold": {
+                "enabled": true,
+                "overridden": null,
+                "value": 1440
+            },
+            "vault_rp_threshold": null
+        },
+        "type": "SERVER",
+        "vault_usage": null,
+        "vaults": [
+            {
+                "device_usage": 7902887028096,
+                "id": 3835,
+                "latest_vault_rp": "2026-04-05T08:16:00Z",
+                "name": "rb-mediaman1.rb.atl.efscloud.net",
+                "service_id": "g2qz",
+                "type": "Cloud"
+            }
+        ],
+        "volumes": [
+            "C:\\",
+            "E:\\",
+            "F:\\"
+        ]
+    },
+    {
+        "agent_version": "2.43.1995",
+        "asio_endpoint_id": null,
+        "client_id": 56301,
+        "cloud_usage": 1296689649408,
+        "current_health_status": {
+            "reason": null,
+            "status": "NORMAL",
+            "timestamp": "2024-02-18T13:40:08Z"
+        },
+        "d2c": true,
+        "device_details_page_url": "https://my.axcient.net/home/device/3799476",
+        "excluded_volumes": null,
+        "id": 3799476,
+        "ip_address": "10.10.0.7",
+        "is_password_protected": false,
+        "jobs": [
+            {
+                "health_status": "NORMAL",
+                "id": 7956880,
+                "latest_rp": "2026-04-05T08:16:00Z",
+                "name": "Cloud Backup Job",
+                "vault_id": 3835
+            }
+        ],
+        "latest_autoverify_details": {
+            "end_timestamp": "2026-04-04T23:53:17Z",
+            "id": "69d1a46d3c4414dba9f2e87b",
+            "is_healthy": true,
+            "rp": "2026-04-04T14:16:00Z",
+            "screenshot_thumbnail_url": "https://my.axcient.net/image/last_autoverify_thumbnail/43663771385a76624764493675334f63426243686477347758725035656737337367666d6e4f474a595557677a4d62573551497373384c753436714a756d2b49646d6f78784f46584643562f756245377265303d",
+            "screenshot_url": "https://my.axcient.net/image/last_autoverify_screenshot/44734b6934683175546b796a346e47634e594a2b746e7a5270314d6d46563545316a5377716c55516b453665347a374a6a6a77786b6b4973366131494b775a31347a6d502f4b766e754c342f54556e7a6648493d",
+            "start_timestamp": "2026-04-04T23:40:46Z",
+            "status": "success",
+            "timestamp": "2026-04-04T23:53:17Z"
+        },
+        "latest_cloud_rp": "2026-04-05T08:16:00Z",
+        "latest_local_rp": null,
+        "latest_vault_rp": null,
+        "local_cache_details": {
+            "enabled": false,
+            "last_successful_verification_timestamp": null,
+            "last_verification_timestamp": null,
+            "path": "",
+            "verification_status": null
+        },
+        "local_ps_id": "65cd24723ae6bb53e593aa9f",
+        "local_total": null,
+        "local_usage": null,
+        "name": "boo.medstarambulance.com",
+        "os": {
+            "bits": 64,
+            "os_name": "Windows Server 2016 Standard (version 1607) - 64-bit",
+            "os_type": "WINDOWS"
+        },
+        "previous_health_status": {
+            "reason": "OFFSITE_STATUS",
+            "status": "TROUBLED",
+            "timestamp": null
+        },
+        "product": "X360RECOVER",
+        "service_id": null,
+        "thresholds": {
+            "cloud_rp_threshold": null,
+            "local_rp_threshold": null,
+            "protection_threshold": {
+                "enabled": true,
+                "overridden": null,
+                "value": 1440
+            },
+            "vault_rp_threshold": null
+        },
+        "type": "SERVER",
+        "vault_usage": null,
+        "vaults": [
+            {
+                "device_usage": 1296689649408,
+                "id": 3835,
+                "latest_vault_rp": "2026-04-05T08:16:00Z",
+                "name": "rb-mediaman1.rb.atl.efscloud.net",
+                "service_id": "g2qz",
+                "type": "Cloud"
+            }
+        ],
+        "volumes": [
+            "C:\\",
+            "E:\\"
+        ]
+    },
+    {
+        "agent_version": "2.43.1995",
+        "asio_endpoint_id": null,
+        "client_id": 56301,
+        "cloud_usage": 953649891072,
+        "current_health_status": {
+            "reason": null,
+            "status": "NORMAL",
+            "timestamp": "2025-07-11T03:14:52Z"
+        },
+        "d2c": true,
+        "device_details_page_url": "https://my.axcient.net/home/device/3799490",
+        "excluded_volumes": null,
+        "id": 3799490,
+        "ip_address": "10.10.2.23",
+        "is_password_protected": false,
+        "jobs": [
+            {
+                "health_status": "NORMAL",
+                "id": 7956894,
+                "latest_rp": "2026-04-05T08:16:00Z",
+                "name": "Cloud Backup Job",
+                "vault_id": 3835
+            }
+        ],
+        "latest_autoverify_details": {
+            "end_timestamp": "2026-04-03T11:40:41Z",
+            "id": "69cfa7390fdeae592fee244e",
+            "is_healthy": true,
+            "rp": "2026-04-03T04:16:00Z",
+            "screenshot_thumbnail_url": "https://my.axcient.net/image/last_autoverify_thumbnail/6450727845474e456c397762425477692b6964426a555530416e3153504343677357695156554a79566d6c5a5144444d435a732b4e68746441305a4b334f4d5a4f46475a676b5a655649477a796942706b71673d",
+            "screenshot_url": "https://my.axcient.net/image/last_autoverify_screenshot/495930354b5475485669566b554434383374336c6a566665394b66304a70626744422f634747633143786130647434445a67354f5650444f504a43344e5642532b4d306937736539653438734b3969313646303d",
+            "start_timestamp": "2026-04-03T11:10:39Z",
+            "status": "success",
+            "timestamp": "2026-04-03T11:40:41Z"
+        },
+        "latest_cloud_rp": "2026-04-05T08:16:00Z",
+        "latest_local_rp": null,
+        "latest_vault_rp": null,
+        "local_cache_details": {
+            "enabled": false,
+            "last_successful_verification_timestamp": null,
+            "last_verification_timestamp": null,
+            "path": "",
+            "verification_status": null
+        },
+        "local_ps_id": "65cd24b63ae6bb53e593aaa4",
+        "local_total": null,
+        "local_usage": null,
+        "name": "fs00.medstarambulance.com",
+        "os": {
+            "bits": 64,
+            "os_name": "Windows Server 2016 Standard (version 1607) - 64-bit",
+            "os_type": "WINDOWS"
+        },
+        "previous_health_status": {
+            "reason": "OFFSITE_STATUS",
+            "status": "TROUBLED",
+            "timestamp": null
+        },
+        "product": "X360RECOVER",
+        "service_id": null,
+        "thresholds": {
+            "cloud_rp_threshold": null,
+            "local_rp_threshold": null,
+            "protection_threshold": {
+                "enabled": true,
+                "overridden": null,
+                "value": 1440
+            },
+            "vault_rp_threshold": null
+        },
+        "type": "SERVER",
+        "vault_usage": null,
+        "vaults": [
+            {
+                "device_usage": 953649891072,
+                "id": 3835,
+                "latest_vault_rp": "2026-04-05T08:16:00Z",
+                "name": "rb-mediaman1.rb.atl.efscloud.net",
+                "service_id": "g2qz",
+                "type": "Cloud"
+            }
+        ],
+        "volumes": [
+            "C:\\",
+            "F:\\"
+        ]
+    },
+    {
+        "agent_version": "2.43.1995",
+        "asio_endpoint_id": null,
+        "client_id": 56301,
+        "cloud_usage": 177952550784,
+        "current_health_status": {
+            "reason": null,
+            "status": "NORMAL",
+            "timestamp": "2025-07-11T09:56:32Z"
+        },
+        "d2c": true,
+        "device_details_page_url": "https://my.axcient.net/home/device/3799495",
+        "excluded_volumes": null,
+        "id": 3799495,
+        "ip_address": "10.10.0.200",
+        "is_password_protected": false,
+        "jobs": [
+            {
+                "health_status": "NORMAL",
+                "id": 7956900,
+                "latest_rp": "2026-04-05T10:31:00Z",
+                "name": "Cloud Backup Job",
+                "vault_id": 3835
+            }
+        ],
+        "latest_autoverify_details": {
+            "end_timestamp": "2026-04-05T00:43:32Z",
+            "id": "69d1b0342808959020f2e87b",
+            "is_healthy": true,
+            "rp": "2026-04-04T16:31:00Z",
+            "screenshot_thumbnail_url": "https://my.axcient.net/image/last_autoverify_thumbnail/704b3530396d4a434253383473545037712b446a6d565266673775326e3957442b736a474c6268504247542b4249436e6545587a694364307275337375544655774d61437a4550442b724753613674504437493d",
+            "screenshot_url": "https://my.axcient.net/image/last_autoverify_screenshot/412b796446583035477450304a495877536f686a4f317061504a6b6c3459674754557a4472327a674671523362664970687033427a6a416a34716e4e4c544764534a6a513144305242394638453850674634343d",
+            "start_timestamp": "2026-04-05T00:31:01Z",
+            "status": "success",
+            "timestamp": "2026-04-05T00:43:32Z"
+        },
+        "latest_cloud_rp": "2026-04-05T10:31:00Z",
+        "latest_local_rp": null,
+        "latest_vault_rp": null,
+        "local_cache_details": {
+            "enabled": false,
+            "last_successful_verification_timestamp": null,
+            "last_verification_timestamp": null,
+            "path": "",
+            "verification_status": null
+        },
+        "local_ps_id": "65cd26bb3ae6bb53e593aaa6",
+        "local_total": null,
+        "local_usage": null,
+        "name": "RDGW0.medstarambulance.com",
+        "os": {
+            "bits": 64,
+            "os_name": "Windows Server 2016 Standard (version 1607) - 64-bit",
+            "os_type": "WINDOWS"
+        },
+        "previous_health_status": {
+            "reason": "OFFSITE_STATUS",
+            "status": "TROUBLED",
+            "timestamp": null
+        },
+        "product": "X360RECOVER",
+        "service_id": null,
+        "thresholds": {
+            "cloud_rp_threshold": null,
+            "local_rp_threshold": null,
+            "protection_threshold": {
+                "enabled": true,
+                "overridden": null,
+                "value": 1440
+            },
+            "vault_rp_threshold": null
+        },
+        "type": "SERVER",
+        "vault_usage": null,
+        "vaults": [
+            {
+                "device_usage": 177952550784,
+                "id": 3835,
+                "latest_vault_rp": "2026-04-05T10:31:00Z",
+                "name": "rb-mediaman1.rb.atl.efscloud.net",
+                "service_id": "g2qz",
+                "type": "Cloud"
+            }
+        ],
+        "volumes": [
+            "C:\\",
+            "E:\\"
+        ]
+    },
+    {
+        "agent_version": "2.43.1995",
+        "asio_endpoint_id": null,
+        "client_id": 56301,
+        "cloud_usage": 457277529984,
+        "current_health_status": {
+            "reason": null,
+            "status": "NORMAL",
+            "timestamp": "2025-07-11T09:41:33Z"
+        },
+        "d2c": true,
+        "device_details_page_url": "https://my.axcient.net/home/device/3799496",
+        "excluded_volumes": null,
+        "id": 3799496,
+        "ip_address": "10.10.0.202",
+        "is_password_protected": false,
+        "jobs": [
+            {
+                "health_status": "NORMAL",
+                "id": 7956901,
+                "latest_rp": "2026-04-05T10:31:00Z",
+                "name": "Cloud Backup Job",
+                "vault_id": 3835
+            }
+        ],
+        "latest_autoverify_details": {
+            "end_timestamp": "2026-04-01T13:24:17Z",
+            "id": "69cd1c81b81c7b7205ee244e",
+            "is_healthy": true,
+            "rp": "2026-04-01T03:31:00Z",
+            "screenshot_thumbnail_url": "https://my.axcient.net/image/last_autoverify_thumbnail/7979714f7675655356713574794d6531463669786330687978376b4631447244714575332f7645366a3478693352746d65485a734c4252325953633866557a6b32726d4a635752634a35466456636e736733453d",
+            "screenshot_url": "https://my.axcient.net/image/last_autoverify_screenshot/586835486f6976687168306e4268706244764a475a5336585354734f5a71422f313973332b3363782b424f7150374a33706533696e497133496343356e705534526157327a524c6377736e71636479336d39513d",
+            "start_timestamp": "2026-04-01T12:49:16Z",
+            "status": "success",
+            "timestamp": "2026-04-01T13:24:17Z"
+        },
+        "latest_cloud_rp": "2026-04-05T10:31:00Z",
+        "latest_local_rp": null,
+        "latest_vault_rp": null,
+        "local_cache_details": {
+            "enabled": false,
+            "last_successful_verification_timestamp": null,
+            "last_verification_timestamp": null,
+            "path": "",
+            "verification_status": null
+        },
+        "local_ps_id": "65cd26dd3ae6bb53e593aaa7",
+        "local_total": null,
+        "local_usage": null,
+        "name": "RDS2-A.medstarambulance.com",
+        "os": {
+            "bits": 64,
+            "os_name": "Windows Server 2016 Standard (version 1607) - 64-bit",
+            "os_type": "WINDOWS"
+        },
+        "previous_health_status": {
+            "reason": "OFFSITE_STATUS",
+            "status": "TROUBLED",
+            "timestamp": null
+        },
+        "product": "X360RECOVER",
+        "service_id": null,
+        "thresholds": {
+            "cloud_rp_threshold": null,
+            "local_rp_threshold": null,
+            "protection_threshold": {
+                "enabled": true,
+                "overridden": null,
+                "value": 1440
+            },
+            "vault_rp_threshold": null
+        },
+        "type": "SERVER",
+        "vault_usage": null,
+        "vaults": [
+            {
+                "device_usage": 457277529984,
+                "id": 3835,
+                "latest_vault_rp": "2026-04-05T10:31:00Z",
+                "name": "rb-mediaman1.rb.atl.efscloud.net",
+                "service_id": "g2qz",
+                "type": "Cloud"
+            }
+        ],
+        "volumes": [
+            "C:\\"
+        ]
+    },
+    {
+        "agent_version": "2.43.1995",
+        "asio_endpoint_id": null,
+        "client_id": 56301,
+        "cloud_usage": 304902312384,
+        "current_health_status": {
+            "reason": null,
+            "status": "NORMAL",
+            "timestamp": "2025-07-11T06:09:36Z"
+        },
+        "d2c": true,
+        "device_details_page_url": "https://my.axcient.net/home/device/3799499",
+        "excluded_volumes": null,
+        "id": 3799499,
+        "ip_address": "10.10.0.16",
+        "is_password_protected": false,
+        "jobs": [
+            {
+                "health_status": "NORMAL",
+                "id": 7956904,
+                "latest_rp": "2026-04-05T08:16:00Z",
+                "name": "Cloud Backup Job",
+                "vault_id": 3835
+            }
+        ],
+        "latest_autoverify_details": {
+            "end_timestamp": "2026-03-29T02:15:40Z",
+            "id": "69c88b4ca12edf3c9ee1d24a",
+            "is_healthy": true,
+            "rp": "2026-03-28T18:16:00Z",
+            "screenshot_thumbnail_url": "https://my.axcient.net/image/last_autoverify_thumbnail/6e2f4b4e5270766f44634c6a356970673069435a746366414b52776a38382f75727a366d566e355a2b55755261774f415658636f304d48624257677a6e6d6c615874594c7338452f4b6438784978386775546f3d",
+            "screenshot_url": "https://my.axcient.net/image/last_autoverify_screenshot/35594f3750394b5965417764575336664e7739614e4b636443515749615a78424f36596d6c6a7a4f674e6d4953664c4779386b5642585077684a696446386b5754416d64583055567a716878703277476e54633d",
+            "start_timestamp": "2026-03-29T02:00:39Z",
+            "status": "success",
+            "timestamp": "2026-03-29T02:15:40Z"
+        },
+        "latest_cloud_rp": "2026-04-05T08:16:00Z",
+        "latest_local_rp": null,
+        "latest_vault_rp": null,
+        "local_cache_details": {
+            "enabled": false,
+            "last_successful_verification_timestamp": null,
+            "last_verification_timestamp": null,
+            "path": "",
+            "verification_status": null
+        },
+        "local_ps_id": "65cd27963ae6bb53e593aaa9",
+        "local_total": null,
+        "local_usage": null,
+        "name": "zollcomm0.medstarambulance.com",
+        "os": {
+            "bits": 64,
+            "os_name": "Windows Server 2016 Standard (version 1607) - 64-bit",
+            "os_type": "WINDOWS"
+        },
+        "previous_health_status": {
+            "reason": "OFFSITE_STATUS",
+            "status": "TROUBLED",
+            "timestamp": null
+        },
+        "product": "X360RECOVER",
+        "service_id": null,
+        "thresholds": {
+            "cloud_rp_threshold": null,
+            "local_rp_threshold": null,
+            "protection_threshold": {
+                "enabled": true,
+                "overridden": null,
+                "value": 1440
+            },
+            "vault_rp_threshold": null
+        },
+        "type": "SERVER",
+        "vault_usage": null,
+        "vaults": [
+            {
+                "device_usage": 304902312384,
+                "id": 3835,
+                "latest_vault_rp": "2026-04-05T08:16:00Z",
+                "name": "rb-mediaman1.rb.atl.efscloud.net",
+                "service_id": "g2qz",
+                "type": "Cloud"
+            }
+        ],
+        "volumes": [
+            "C:\\"
+        ]
+    },
+    {
+        "agent_version": "2.43.1995",
+        "asio_endpoint_id": null,
+        "client_id": 56301,
+        "cloud_usage": 109788461184,
+        "current_health_status": {
+            "reason": null,
+            "status": "NORMAL",
+            "timestamp": "2024-02-14T22:20:52Z"
+        },
+        "d2c": true,
+        "device_details_page_url": "https://my.axcient.net/home/device/3799511",
+        "excluded_volumes": null,
+        "id": 3799511,
+        "ip_address": "10.10.0.12",
+        "is_password_protected": false,
+        "jobs": [
+            {
+                "health_status": "NORMAL",
+                "id": 7956916,
+                "latest_rp": "2026-04-05T08:16:00Z",
+                "name": "Cloud Backup Job",
+                "vault_id": 3835
+            }
+        ],
+        "latest_autoverify_details": {
+            "end_timestamp": "2026-04-05T04:00:45Z",
+            "id": "69d1de6dc6be6da1c6f2e87b",
+            "is_healthy": true,
+            "rp": "2026-04-04T18:16:00Z",
+            "screenshot_thumbnail_url": "https://my.axcient.net/image/last_autoverify_thumbnail/634a37625332435a4550337a366d6d50516c754847444d47584230383854755755616b32426b664e6b6e6f746c615a696b667053544a48644d4c342b79504e32474d463151656946726964576b4c39676b42593d",
+            "screenshot_url": "https://my.axcient.net/image/last_autoverify_screenshot/6a66544b7267303253517a65747a2b36764e473471786d486a5a43412b465571664f6c4157736f737148416c44536135754e4d4876477a6d77784430593131675759435273304c6b2f316a684f6f412f72386b3d",
+            "start_timestamp": "2026-04-05T03:40:43Z",
+            "status": "success",
+            "timestamp": "2026-04-05T04:00:45Z"
+        },
+        "latest_cloud_rp": "2026-04-05T08:16:00Z",
+        "latest_local_rp": null,
+        "latest_vault_rp": null,
+        "local_cache_details": {
+            "enabled": false,
+            "last_successful_verification_timestamp": null,
+            "last_verification_timestamp": null,
+            "path": "",
+            "verification_status": null
+        },
+        "local_ps_id": "65cd28a43ae6bb53e593aaaa",
+        "local_total": null,
+        "local_usage": null,
+        "name": "smitty.medstarambulance.com",
+        "os": {
+            "bits": 64,
+            "os_name": "Windows Server 2012 Standard (build 9600) - 64-bit",
+            "os_type": "WINDOWS"
+        },
+        "previous_health_status": {
+            "reason": "OFFSITE_NEVER_RUN",
+            "status": "WARNED",
+            "timestamp": null
+        },
+        "product": "X360RECOVER",
+        "service_id": null,
+        "thresholds": {
+            "cloud_rp_threshold": null,
+            "local_rp_threshold": null,
+            "protection_threshold": {
+                "enabled": true,
+                "overridden": null,
+                "value": 1440
+            },
+            "vault_rp_threshold": null
+        },
+        "type": "SERVER",
+        "vault_usage": null,
+        "vaults": [
+            {
+                "device_usage": 109788461184,
+                "id": 3835,
+                "latest_vault_rp": "2026-04-05T08:16:00Z",
+                "name": "rb-mediaman1.rb.atl.efscloud.net",
+                "service_id": "g2qz",
+                "type": "Cloud"
+            }
+        ],
+        "volumes": [
+            "C:\\"
+        ]
+    },
+    {
+        "agent_version": "2.43.1995",
+        "asio_endpoint_id": null,
+        "client_id": 56301,
+        "cloud_usage": 10187344914624,
+        "current_health_status": {
+            "reason": null,
+            "status": "NORMAL",
+            "timestamp": "2025-07-11T09:41:26Z"
+        },
+        "d2c": true,
+        "device_details_page_url": "https://my.axcient.net/home/device/3799553",
+        "excluded_volumes": null,
+        "id": 3799553,
+        "ip_address": "10.10.0.17",
+        "is_password_protected": false,
+        "jobs": [
+            {
+                "health_status": "NORMAL",
+                "id": 7956950,
+                "latest_rp": "2026-04-05T08:16:00Z",
+                "name": "Cloud Backup Job",
+                "vault_id": 3835
+            }
+        ],
+        "latest_autoverify_details": {
+            "end_timestamp": "2026-03-29T16:45:43Z",
+            "id": "69c95737247b6e64bbf2e87b",
+            "is_healthy": true,
+            "rp": "2026-03-29T06:16:00Z",
+            "screenshot_thumbnail_url": "https://my.axcient.net/image/last_autoverify_thumbnail/3032357a584e46445271417838472f64754e3370384b39673474726d412b2f3061766f6b6443754644747a71737752435755796850544961754a385831424b2f75347a6f656a4f6d4a38726b415a622b6369343d",
+            "screenshot_url": "https://my.axcient.net/image/last_autoverify_screenshot/66674543754b31666a614648343872556a7376703379484e45784c762f3539792f7863344b696c73302b69782f4a7064772f4c3653676e73692b7246507a4b712b2f387538374d737455324e413639304a62493d",
+            "start_timestamp": "2026-03-29T16:30:42Z",
+            "status": "success",
+            "timestamp": "2026-03-29T16:45:43Z"
+        },
+        "latest_cloud_rp": "2026-04-05T08:16:00Z",
+        "latest_local_rp": null,
+        "latest_vault_rp": null,
+        "local_cache_details": {
+            "enabled": false,
+            "last_successful_verification_timestamp": null,
+            "last_verification_timestamp": null,
+            "path": "",
+            "verification_status": null
+        },
+        "local_ps_id": "65cd36823ae6bb53e593aaab",
+        "local_total": null,
+        "local_usage": null,
+        "name": "sully.medstarambulance.com",
+        "os": {
+            "bits": 64,
+            "os_name": "Windows Server 2016 Standard (version 1607) - 64-bit",
+            "os_type": "WINDOWS"
+        },
+        "previous_health_status": {
+            "reason": "OFFSITE_STATUS",
+            "status": "TROUBLED",
+            "timestamp": null
+        },
+        "product": "X360RECOVER",
+        "service_id": null,
+        "thresholds": {
+            "cloud_rp_threshold": null,
+            "local_rp_threshold": null,
+            "protection_threshold": {
+                "enabled": true,
+                "overridden": null,
+                "value": 1440
+            },
+            "vault_rp_threshold": null
+        },
+        "type": "SERVER",
+        "vault_usage": null,
+        "vaults": [
+            {
+                "device_usage": 10187344914624,
+                "id": 3835,
+                "latest_vault_rp": "2026-04-05T08:16:00Z",
+                "name": "rb-mediaman1.rb.atl.efscloud.net",
+                "service_id": "g2qz",
+                "type": "Cloud"
+            }
+        ],
+        "volumes": [
+            "C:\\",
+            "E:\\",
+            "F:\\",
+            "G:\\",
+            "L:\\",
+            "M:\\"
+        ]
+    },
+    {
+        "agent_version": "2.43.1995",
+        "asio_endpoint_id": null,
+        "client_id": 56301,
+        "cloud_usage": 413029725120,
+        "current_health_status": {
+            "reason": null,
+            "status": "NORMAL",
+            "timestamp": "2025-07-11T09:44:00Z"
+        },
+        "d2c": true,
+        "device_details_page_url": "https://my.axcient.net/home/device/3924100",
+        "excluded_volumes": null,
+        "id": 3924100,
+        "ip_address": "10.10.0.203",
+        "is_password_protected": false,
+        "jobs": [
+            {
+                "health_status": "NORMAL",
+                "id": 8207432,
+                "latest_rp": "2026-04-05T10:31:00Z",
+                "name": "Cloud Backup Job",
+                "vault_id": 3835
+            }
+        ],
+        "latest_autoverify_details": {
+            "end_timestamp": "2026-03-25T07:03:11Z",
+            "id": "69c388af02a256391c7b1b70",
+            "is_healthy": true,
+            "rp": "2026-03-24T03:31:00Z",
+            "screenshot_thumbnail_url": "https://my.axcient.net/image/last_autoverify_thumbnail/774d4c486668584e677936524e6a61774b5650445635693668424d70647a53456a31545756747238716e7157495536306b59726f7952517843774a6e78437a6c7054342b4a41534641503137693035732b35493d",
+            "screenshot_url": "https://my.axcient.net/image/last_autoverify_screenshot/71537441764645646c52423841667064486c356f6f30666470356c415443652b354c5375376735304463565669495653455a51474978557a694c6766443630584c4a484c356165544d616650686339617562773d",
+            "start_timestamp": "2026-03-25T06:30:38Z",
+            "status": "success",
+            "timestamp": "2026-03-25T07:03:11Z"
+        },
+        "latest_cloud_rp": "2026-04-05T10:31:00Z",
+        "latest_local_rp": null,
+        "latest_vault_rp": null,
+        "local_cache_details": {
+            "enabled": false,
+            "last_successful_verification_timestamp": null,
+            "last_verification_timestamp": null,
+            "path": "",
+            "verification_status": null
+        },
+        "local_ps_id": "66cc9aaca30799645f413b25",
+        "local_total": null,
+        "local_usage": null,
+        "name": "RDS2-B.medstarambulance.com",
+        "os": {
+            "bits": 64,
+            "os_name": "Windows Server 2016 Standard (version 1607) - 64-bit",
+            "os_type": "WINDOWS"
+        },
+        "previous_health_status": {
+            "reason": "OFFSITE_STATUS",
+            "status": "TROUBLED",
+            "timestamp": null
+        },
+        "product": "X360RECOVER",
+        "service_id": null,
+        "thresholds": {
+            "cloud_rp_threshold": null,
+            "local_rp_threshold": null,
+            "protection_threshold": {
+                "enabled": true,
+                "overridden": null,
+                "value": 1440
+            },
+            "vault_rp_threshold": null
+        },
+        "type": "SERVER",
+        "vault_usage": null,
+        "vaults": [
+            {
+                "device_usage": 413029725120,
+                "id": 3835,
+                "latest_vault_rp": "2026-04-05T10:31:00Z",
+                "name": "rb-mediaman1.rb.atl.efscloud.net",
+                "service_id": "g2qz",
+                "type": "Cloud"
+            }
+        ],
+        "volumes": [
+            "C:\\"
+        ]
+    },
+    {
+        "agent_version": "2.43.1995",
+        "asio_endpoint_id": null,
+        "client_id": 78562,
+        "cloud_usage": 21848877135936,
+        "current_health_status": {
+            "reason": "OFFSITE_STATUS",
+            "status": "TROUBLED",
+            "timestamp": "2026-01-15T13:01:01Z"
+        },
+        "d2c": true,
+        "device_details_page_url": "https://my.axcient.net/home/device/4019658",
+        "excluded_volumes": null,
+        "id": 4019658,
+        "ip_address": "10.1.10.34",
+        "is_password_protected": false,
+        "jobs": [
+            {
+                "health_status": "TROUBLED",
+                "id": 8360755,
+                "latest_rp": "2026-01-14T04:01:00Z",
+                "name": "Cloud Backup Job",
+                "vault_id": 3835
+            }
+        ],
+        "latest_autoverify_details": {
+            "end_timestamp": "2026-01-17T07:33:03Z",
+            "id": "696b3b2f870ca25c330d222d",
+            "is_healthy": true,
+            "rp": "2026-01-13T21:01:00Z",
+            "screenshot_thumbnail_url": "https://my.axcient.net/image/last_autoverify_thumbnail/355a4478666d6474707175756d746779565a4944354c3230356276532b76487357795130664e4a4471654851422f5878397554384c397a6b49516f347178456c677045564f3950755355304a6c424d7433714d3d",
+            "screenshot_url": "https://my.axcient.net/image/last_autoverify_screenshot/664e7574476b46552b74386467594b56374f3474615a30314436744b31747676494577384f35634e655a37365261726d7277326a6644327767586d566c42386a6b7158545064473565433532597a5663365a513d",
+            "start_timestamp": "2026-01-17T07:20:32Z",
+            "status": "success",
+            "timestamp": "2026-01-17T07:33:03Z"
+        },
+        "latest_cloud_rp": "2026-01-14T04:01:00Z",
+        "latest_local_rp": null,
+        "latest_vault_rp": null,
+        "local_cache_details": {
+            "enabled": false,
+            "last_successful_verification_timestamp": null,
+            "last_verification_timestamp": null,
+            "path": "",
+            "verification_status": null
+        },
+        "local_ps_id": "67ad0fce1a4a592e372a9c82",
+        "local_total": null,
+        "local_usage": null,
+        "name": "nolansrv",
+        "os": {
+            "bits": 64,
+            "os_name": "Windows Server 2019 Standard (version 1809) - 64-bit",
+            "os_type": "WINDOWS"
+        },
+        "previous_health_status": {
+            "reason": null,
+            "status": "NORMAL",
+            "timestamp": null
+        },
+        "product": "X360RECOVER",
+        "service_id": null,
+        "thresholds": {
+            "cloud_rp_threshold": null,
+            "local_rp_threshold": null,
+            "protection_threshold": {
+                "enabled": true,
+                "overridden": null,
+                "value": 1440
+            },
+            "vault_rp_threshold": null
+        },
+        "type": "SERVER",
+        "vault_usage": null,
+        "vaults": [
+            {
+                "device_usage": 21848877135936,
+                "id": 3835,
+                "latest_vault_rp": "2026-01-14T04:01:00Z",
+                "name": "rb-mediaman1.rb.atl.efscloud.net",
+                "service_id": "g2qz",
+                "type": "Cloud"
+            }
+        ],
+        "volumes": [
+            "C:\\",
+            "F:\\"
+        ]
+    },
+    {
+        "agent_version": "2.43.1995",
+        "asio_endpoint_id": null,
+        "client_id": 49540,
+        "cloud_usage": 167832984192,
+        "current_health_status": {
+            "reason": null,
+            "status": "NORMAL",
+            "timestamp": "2025-04-20T04:42:13Z"
+        },
+        "d2c": true,
+        "device_details_page_url": "https://my.axcient.net/home/device/4050920",
+        "excluded_volumes": null,
+        "id": 4050920,
+        "ip_address": "172.40.0.50",
+        "is_password_protected": false,
+        "jobs": [
+            {
+                "health_status": "NORMAL",
+                "id": 8411613,
+                "latest_rp": "2026-04-05T04:33:00Z",
+                "name": "Cloud Backup Job",
+                "vault_id": 3835
+            }
+        ],
+        "latest_autoverify_details": {
+            "end_timestamp": "2026-03-29T07:45:40Z",
+            "id": "69c8d8a4fd3ab6d07b03b991",
+            "is_healthy": true,
+            "rp": "2026-03-28T22:33:00Z",
+            "screenshot_thumbnail_url": "https://my.axcient.net/image/last_autoverify_thumbnail/51352f5551505032594250413775477271445345675a6e5a4f55755836352f346b5975363262746474715730433772574f6f3650625a4447366538712f502f6370446678354d344249313970624a45486456733d",
+            "screenshot_url": "https://my.axcient.net/image/last_autoverify_screenshot/57334e72597577572b53342b71356c68757552716e624b5a7a72306d6d5642536e7665514c4f2f64637668416a49496b66744e586879327a696366354a736c514f6d4b4d354a797a44474b6563354736364d4d3d",
+            "start_timestamp": "2026-03-29T07:30:39Z",
+            "status": "success",
+            "timestamp": "2026-03-29T07:45:40Z"
+        },
+        "latest_cloud_rp": "2026-04-05T04:33:00Z",
+        "latest_local_rp": null,
+        "latest_vault_rp": null,
+        "local_cache_details": {
+            "enabled": false,
+            "last_successful_verification_timestamp": null,
+            "last_verification_timestamp": null,
+            "path": "",
+            "verification_status": null
+        },
+        "local_ps_id": "67fe55a2967120260cc2fd02",
+        "local_total": null,
+        "local_usage": null,
+        "name": "pmtsv2018060802.promed.org",
+        "os": {
+            "bits": 64,
+            "os_name": "Windows Server 2016 Standard (version 1607) - 64-bit",
+            "os_type": "WINDOWS"
+        },
+        "previous_health_status": {
+            "reason": "OFFSITE_STATUS",
+            "status": "TROUBLED",
+            "timestamp": null
+        },
+        "product": "X360RECOVER",
+        "service_id": null,
+        "thresholds": {
+            "cloud_rp_threshold": null,
+            "local_rp_threshold": null,
+            "protection_threshold": {
+                "enabled": true,
+                "overridden": null,
+                "value": 1440
+            },
+            "vault_rp_threshold": null
+        },
+        "type": "SERVER",
+        "vault_usage": null,
+        "vaults": [
+            {
+                "device_usage": 167832984192,
+                "id": 3835,
+                "latest_vault_rp": "2026-04-05T04:33:00Z",
+                "name": "rb-mediaman1.rb.atl.efscloud.net",
+                "service_id": "g2qz",
+                "type": "Cloud"
+            }
+        ],
+        "volumes": [
+            "C:\\"
+        ]
+    },
+    {
+        "agent_version": "2.43.1995",
+        "asio_endpoint_id": null,
+        "client_id": 49540,
+        "cloud_usage": 308662774080,
+        "current_health_status": {
+            "reason": null,
+            "status": "NORMAL",
+            "timestamp": "2025-04-15T20:50:44Z"
+        },
+        "d2c": true,
+        "device_details_page_url": "https://my.axcient.net/home/device/4050922",
+        "excluded_volumes": null,
+        "id": 4050922,
+        "ip_address": "172.40.0.10",
+        "is_password_protected": false,
+        "jobs": [
+            {
+                "health_status": "NORMAL",
+                "id": 8411615,
+                "latest_rp": "2026-04-05T04:33:00Z",
+                "name": "Cloud Backup Job",
+                "vault_id": 3835
+            }
+        ],
+        "latest_autoverify_details": {
+            "end_timestamp": "2026-04-04T11:25:57Z",
+            "id": "69d0f545d6c9f8e396ee244e",
+            "is_healthy": true,
+            "rp": "2026-04-03T22:33:00Z",
+            "screenshot_thumbnail_url": "https://my.axcient.net/image/last_autoverify_thumbnail/686e545969555a7a44763767543647593731395873396a4e38756339374c525830517138775a494e5365717a436f6c683047586e2f697231696b4a514e3037532f4464336353635046686e64346350533178343d",
+            "screenshot_url": "https://my.axcient.net/image/last_autoverify_screenshot/5033586730664f506a78457941796f61695077302b613452484b76517639494f774c45687675646b39647a43326d774d726758514e5a553372647759584e49674c57314762436e394859367979636b326a66773d",
+            "start_timestamp": "2026-04-04T11:10:55Z",
+            "status": "success",
+            "timestamp": "2026-04-04T11:25:57Z"
+        },
+        "latest_cloud_rp": "2026-04-05T04:33:00Z",
+        "latest_local_rp": null,
+        "latest_vault_rp": null,
+        "local_cache_details": {
+            "enabled": false,
+            "last_successful_verification_timestamp": null,
+            "last_verification_timestamp": null,
+            "path": "",
+            "verification_status": null
+        },
+        "local_ps_id": "67fe56d3967120260cc2fd05",
+        "local_total": null,
+        "local_usage": null,
+        "name": "dreamy.promed.org",
+        "os": {
+            "bits": 64,
+            "os_name": "Windows Server 2016 Standard (version 1607) - 64-bit",
+            "os_type": "WINDOWS"
+        },
+        "previous_health_status": {
+            "reason": "OFFSITE_NEVER_RUN",
+            "status": "WARNED",
+            "timestamp": null
+        },
+        "product": "X360RECOVER",
+        "service_id": null,
+        "thresholds": {
+            "cloud_rp_threshold": null,
+            "local_rp_threshold": null,
+            "protection_threshold": {
+                "enabled": true,
+                "overridden": null,
+                "value": 1440
+            },
+            "vault_rp_threshold": null
+        },
+        "type": "SERVER",
+        "vault_usage": null,
+        "vaults": [
+            {
+                "device_usage": 308662774080,
+                "id": 3835,
+                "latest_vault_rp": "2026-04-05T04:33:00Z",
+                "name": "rb-mediaman1.rb.atl.efscloud.net",
+                "service_id": "g2qz",
+                "type": "Cloud"
+            }
+        ],
+        "volumes": [
+            "C:\\",
+            "E:\\"
+        ]
+    },
+    {
+        "agent_version": "2.43.1995",
+        "asio_endpoint_id": null,
+        "client_id": 49540,
+        "cloud_usage": 305499708672,
+        "current_health_status": {
+            "reason": null,
+            "status": "NORMAL",
+            "timestamp": "2025-04-15T20:36:25Z"
+        },
+        "d2c": true,
+        "device_details_page_url": "https://my.axcient.net/home/device/4050923",
+        "excluded_volumes": null,
+        "id": 4050923,
+        "ip_address": "172.40.0.11",
+        "is_password_protected": false,
+        "jobs": [
+            {
+                "health_status": "NORMAL",
+                "id": 8411616,
+                "latest_rp": "2026-04-05T04:33:00Z",
+                "name": "Cloud Backup Job",
+                "vault_id": 3835
+            }
+        ],
+        "latest_autoverify_details": {
+            "end_timestamp": "2026-03-26T21:58:17Z",
+            "id": "69c5abf9f44f03a33103b991",
+            "is_healthy": true,
+            "rp": "2026-03-26T10:33:00Z",
+            "screenshot_thumbnail_url": "https://my.axcient.net/image/last_autoverify_thumbnail/526c6b2b44517679576f7677466c47663661464a74316b52537747744d574a646e4c6d3878784858564e77576a63393438754374566a704d4a533464354646412b706d644a30397a6b4770377a785a627a674d3d",
+            "screenshot_url": "https://my.axcient.net/image/last_autoverify_screenshot/765279384d45547046626e766351325062425067496d482b58453061457833394b74746c53374d746241574b33702f67416143532b54436c494b34793277456b51685a2b4868675765624f61517957504e506b3d",
+            "start_timestamp": "2026-03-26T21:40:45Z",
+            "status": "success",
+            "timestamp": "2026-03-26T21:58:17Z"
+        },
+        "latest_cloud_rp": "2026-04-05T04:33:00Z",
+        "latest_local_rp": null,
+        "latest_vault_rp": null,
+        "local_cache_details": {
+            "enabled": false,
+            "last_successful_verification_timestamp": null,
+            "last_verification_timestamp": null,
+            "path": "",
+            "verification_status": null
+        },
+        "local_ps_id": "67fe56ce967120260cc2fd04",
+        "local_total": null,
+        "local_usage": null,
+        "name": "clumsy.promed.org",
+        "os": {
+            "bits": 64,
+            "os_name": "Windows Server 2016 Standard (version 1607) - 64-bit",
+            "os_type": "WINDOWS"
+        },
+        "previous_health_status": {
+            "reason": "OFFSITE_NEVER_RUN",
+            "status": "WARNED",
+            "timestamp": null
+        },
+        "product": "X360RECOVER",
+        "service_id": null,
+        "thresholds": {
+            "cloud_rp_threshold": null,
+            "local_rp_threshold": null,
+            "protection_threshold": {
+                "enabled": true,
+                "overridden": null,
+                "value": 1440
+            },
+            "vault_rp_threshold": null
+        },
+        "type": "SERVER",
+        "vault_usage": null,
+        "vaults": [
+            {
+                "device_usage": 305499708672,
+                "id": 3835,
+                "latest_vault_rp": "2026-04-05T04:33:00Z",
+                "name": "rb-mediaman1.rb.atl.efscloud.net",
+                "service_id": "g2qz",
+                "type": "Cloud"
+            }
+        ],
+        "volumes": [
+            "C:\\",
+            "E:\\"
+        ]
+    },
+    {
+        "agent_version": "2.43.1995",
+        "asio_endpoint_id": null,
+        "client_id": 49540,
+        "cloud_usage": 4990114784832,
+        "current_health_status": {
+            "reason": null,
+            "status": "NORMAL",
+            "timestamp": "2026-01-15T13:34:06Z"
+        },
+        "d2c": true,
+        "device_details_page_url": "https://my.axcient.net/home/device/4051766",
+        "excluded_volumes": null,
+        "id": 4051766,
+        "ip_address": "172.40.0.15",
+        "is_password_protected": false,
+        "jobs": [
+            {
+                "health_status": "NORMAL",
+                "id": 8412674,
+                "latest_rp": "2026-04-05T04:33:00Z",
+                "name": "Cloud Backup Job",
+                "vault_id": 3835
+            }
+        ],
+        "latest_autoverify_details": {
+            "end_timestamp": "2026-04-04T13:48:24Z",
+            "id": "69d116a8830daab83b0ed152",
+            "is_healthy": true,
+            "rp": "2026-04-03T22:33:00Z",
+            "screenshot_thumbnail_url": "https://my.axcient.net/image/last_autoverify_thumbnail/6478696a34636a4a346f384343784f41455150746f30734267396e6e614a456f59577a4b654133654831446a2f7757583248767a5547724a4842476a74435344576b47677573697249686f767769682b624d413d",
+            "screenshot_url": "https://my.axcient.net/image/last_autoverify_screenshot/75424e41755a416b664d706f69616b7556655238586674703345364d555a6d483443516e4a4756332f7a69465a61467054786773327a654b2f3251544847334e76696f447a44387341324f4d6c3039454145303d",
+            "start_timestamp": "2026-04-04T13:30:53Z",
+            "status": "success",
+            "timestamp": "2026-04-04T13:48:24Z"
+        },
+        "latest_cloud_rp": "2026-04-05T04:33:00Z",
+        "latest_local_rp": null,
+        "latest_vault_rp": null,
+        "local_cache_details": {
+            "enabled": false,
+            "last_successful_verification_timestamp": null,
+            "last_verification_timestamp": null,
+            "path": "",
+            "verification_status": null
+        },
+        "local_ps_id": "67fff109967120260cc2feca",
+        "local_total": null,
+        "local_usage": null,
+        "name": "handy.promed.org",
+        "os": {
+            "bits": 64,
+            "os_name": "Windows Server 2012 Standard (build 9600) - 64-bit",
+            "os_type": "WINDOWS"
+        },
+        "previous_health_status": {
+            "reason": "OFFSITE_STATUS",
+            "status": "TROUBLED",
+            "timestamp": null
+        },
+        "product": "X360RECOVER",
+        "service_id": null,
+        "thresholds": {
+            "cloud_rp_threshold": null,
+            "local_rp_threshold": null,
+            "protection_threshold": {
+                "enabled": true,
+                "overridden": null,
+                "value": 1440
+            },
+            "vault_rp_threshold": null
+        },
+        "type": "SERVER",
+        "vault_usage": null,
+        "vaults": [
+            {
+                "device_usage": 4990114784832,
+                "id": 3835,
+                "latest_vault_rp": "2026-04-05T04:33:00Z",
+                "name": "rb-mediaman1.rb.atl.efscloud.net",
+                "service_id": "g2qz",
+                "type": "Cloud"
+            }
+        ],
+        "volumes": [
+            "C:\\",
+            "E:\\",
+            "F:\\",
+            "G:\\"
+        ]
+    },
+    {
+        "agent_version": "2.43.1995",
+        "asio_endpoint_id": null,
+        "client_id": 49540,
+        "cloud_usage": 577267088256,
+        "current_health_status": {
+            "reason": null,
+            "status": "NORMAL",
+            "timestamp": "2026-01-25T19:38:31Z"
+        },
+        "d2c": true,
+        "device_details_page_url": "https://my.axcient.net/home/device/4051826",
+        "excluded_volumes": null,
+        "id": 4051826,
+        "ip_address": "172.40.0.16",
+        "is_password_protected": false,
+        "jobs": [
+            {
+                "health_status": "NORMAL",
+                "id": 8412718,
+                "latest_rp": "2026-04-05T04:33:00Z",
+                "name": "Cloud Backup Job",
+                "vault_id": 3835
+            }
+        ],
+        "latest_autoverify_details": {
+            "end_timestamp": "2026-04-04T03:45:47Z",
+            "id": "69d0896bea2a8c593907f09b",
+            "is_healthy": true,
+            "rp": "2026-04-03T10:33:00Z",
+            "screenshot_thumbnail_url": "https://my.axcient.net/image/last_autoverify_thumbnail/694154564a6c74306d4d393032466641474c526c317743476875384f5a324f74564146783138794b37666663364452394b477a636b74495a362f37315934624d6a6b5139586535584a6f61746c51644a7345453d",
+            "screenshot_url": "https://my.axcient.net/image/last_autoverify_screenshot/4c636468566f44384d525a694e684d746172434c694377557463315a446748696e2b4e6a5a6e652b37726e4c7969544841556438685863756d7332793750337531387a76746b585575624b594e5553503732453d",
+            "start_timestamp": "2026-04-04T03:30:46Z",
+            "status": "success",
+            "timestamp": "2026-04-04T03:45:47Z"
+        },
+        "latest_cloud_rp": "2026-04-05T04:33:00Z",
+        "latest_local_rp": null,
+        "latest_vault_rp": null,
+        "local_cache_details": {
+            "enabled": false,
+            "last_successful_verification_timestamp": null,
+            "last_verification_timestamp": null,
+            "path": "",
+            "verification_status": null
+        },
+        "local_ps_id": "680006f0967120260cc2fed8",
+        "local_total": null,
+        "local_usage": null,
+        "name": "greedy.promed.org",
+        "os": {
+            "bits": 64,
+            "os_name": "Windows Server 2016 Standard (version 1607) - 64-bit",
+            "os_type": "WINDOWS"
+        },
+        "previous_health_status": {
+            "reason": "OFFSITE_STATUS",
+            "status": "TROUBLED",
+            "timestamp": null
+        },
+        "product": "X360RECOVER",
+        "service_id": null,
+        "thresholds": {
+            "cloud_rp_threshold": null,
+            "local_rp_threshold": null,
+            "protection_threshold": {
+                "enabled": true,
+                "overridden": null,
+                "value": 1440
+            },
+            "vault_rp_threshold": null
+        },
+        "type": "SERVER",
+        "vault_usage": null,
+        "vaults": [
+            {
+                "device_usage": 577267088256,
+                "id": 3835,
+                "latest_vault_rp": "2026-04-05T04:33:00Z",
+                "name": "rb-mediaman1.rb.atl.efscloud.net",
+                "service_id": "g2qz",
+                "type": "Cloud"
+            }
+        ],
+        "volumes": [
+            "C:\\",
+            "E:\\"
+        ]
+    },
+    {
+        "agent_version": "2.43.1995",
+        "asio_endpoint_id": null,
+        "client_id": 49540,
+        "cloud_usage": 326914028544,
+        "current_health_status": {
+            "reason": null,
+            "status": "NORMAL",
+            "timestamp": "2026-01-25T19:34:50Z"
+        },
+        "d2c": true,
+        "device_details_page_url": "https://my.axcient.net/home/device/4052129",
+        "excluded_volumes": null,
+        "id": 4052129,
+        "ip_address": "172.40.0.12",
+        "is_password_protected": false,
+        "jobs": [
+            {
+                "health_status": "NORMAL",
+                "id": 8413291,
+                "latest_rp": "2026-04-05T04:33:00Z",
+                "name": "Cloud Backup Job",
+                "vault_id": 3835
+            }
+        ],
+        "latest_autoverify_details": {
+            "end_timestamp": "2026-03-28T07:48:24Z",
+            "id": "69c787c874fbc93338f2e87b",
+            "is_healthy": true,
+            "rp": "2026-03-27T22:33:00Z",
+            "screenshot_thumbnail_url": "https://my.axcient.net/image/last_autoverify_thumbnail/7a716d5272776e65492b536e534a656e697a327436654d64525a524f433875564932674f4f746176365373662f4c42376541523574434b2b58522f506c764c54425678437a373179312b7130573878395854513d",
+            "screenshot_url": "https://my.axcient.net/image/last_autoverify_screenshot/4e482b4e2f63494e796a302f443353704b6545365774376462386b46594d61514a48385045373852736662493952306b42724e57654d2b582f55713930524e686d326232526a4d4f686951744a6730393050513d",
+            "start_timestamp": "2026-03-28T07:30:53Z",
+            "status": "success",
+            "timestamp": "2026-03-28T07:48:24Z"
+        },
+        "latest_cloud_rp": "2026-04-05T04:33:00Z",
+        "latest_local_rp": null,
+        "latest_vault_rp": null,
+        "local_cache_details": {
+            "enabled": false,
+            "last_successful_verification_timestamp": null,
+            "last_verification_timestamp": null,
+            "path": "",
+            "verification_status": null
+        },
+        "local_ps_id": "680107b1967120260cc30004",
+        "local_total": null,
+        "local_usage": null,
+        "name": "grouchy.promed.org",
+        "os": {
+            "bits": 64,
+            "os_name": "Windows Server 2012 Standard (build 9600) - 64-bit",
+            "os_type": "WINDOWS"
+        },
+        "previous_health_status": {
+            "reason": "OFFSITE_STATUS",
+            "status": "TROUBLED",
+            "timestamp": null
+        },
+        "product": "X360RECOVER",
+        "service_id": null,
+        "thresholds": {
+            "cloud_rp_threshold": null,
+            "local_rp_threshold": null,
+            "protection_threshold": {
+                "enabled": true,
+                "overridden": null,
+                "value": 1440
+            },
+            "vault_rp_threshold": null
+        },
+        "type": "SERVER",
+        "vault_usage": null,
+        "vaults": [
+            {
+                "device_usage": 326914028544,
+                "id": 3835,
+                "latest_vault_rp": "2026-04-05T04:33:00Z",
+                "name": "rb-mediaman1.rb.atl.efscloud.net",
+                "service_id": "g2qz",
+                "type": "Cloud"
+            }
+        ],
+        "volumes": [
+            "C:\\"
+        ]
+    },
+    {
+        "agent_version": "2.43.1995",
+        "asio_endpoint_id": null,
+        "client_id": 56301,
+        "cloud_usage": 123299846400,
+        "current_health_status": {
+            "reason": null,
+            "status": "NORMAL",
+            "timestamp": "2025-07-09T21:20:48Z"
+        },
+        "d2c": true,
+        "device_details_page_url": "https://my.axcient.net/home/device/4095792",
+        "excluded_volumes": null,
+        "id": 4095792,
+        "ip_address": "10.10.0.11",
+        "is_password_protected": false,
+        "jobs": [
+            {
+                "health_status": "NORMAL",
+                "id": 8473841,
+                "latest_rp": "2026-04-05T08:16:00Z",
+                "name": "Cloud Backup Job",
+                "vault_id": 3835
+            }
+        ],
+        "latest_autoverify_details": {
+            "end_timestamp": "2026-03-31T10:35:47Z",
+            "id": "69cba3835f2831cfae652ee2",
+            "is_healthy": true,
+            "rp": "2026-03-31T04:16:00Z",
+            "screenshot_thumbnail_url": "https://my.axcient.net/image/last_autoverify_thumbnail/74663178384c4e6336394c2f5662344152714d2f455350497774734c3869486f326a77463271323739634b5664644756654e4764417a55313542727838574552656f6155784d656b33316f4168575a4f535a513d",
+            "screenshot_url": "https://my.axcient.net/image/last_autoverify_screenshot/50752f6d76336d6d37367971793977634d72724d675169306455755a2f6c78594b55466f64614e436671743973566f71497948585835366c795a4847685a30363867594e3078384731464c737164552b7353773d",
+            "start_timestamp": "2026-03-31T10:20:45Z",
+            "status": "success",
+            "timestamp": "2026-03-31T10:35:47Z"
+        },
+        "latest_cloud_rp": "2026-04-05T08:16:00Z",
+        "latest_local_rp": null,
+        "latest_vault_rp": null,
+        "local_cache_details": {
+            "enabled": false,
+            "last_successful_verification_timestamp": null,
+            "last_verification_timestamp": null,
+            "path": "",
+            "verification_status": null
+        },
+        "local_ps_id": "686ed5bea3a14c98fd59ea83",
+        "local_total": null,
+        "local_usage": null,
+        "name": "msadc2.medstarambulance.com",
+        "os": {
+            "bits": 64,
+            "os_name": "Windows Server 2016 Standard (version 1607) - 64-bit",
+            "os_type": "WINDOWS"
+        },
+        "previous_health_status": {
+            "reason": "OFFSITE_NEVER_RUN",
+            "status": "WARNED",
+            "timestamp": null
+        },
+        "product": "X360RECOVER",
+        "service_id": null,
+        "thresholds": {
+            "cloud_rp_threshold": null,
+            "local_rp_threshold": null,
+            "protection_threshold": {
+                "enabled": true,
+                "overridden": null,
+                "value": 1440
+            },
+            "vault_rp_threshold": null
+        },
+        "type": "SERVER",
+        "vault_usage": null,
+        "vaults": [
+            {
+                "device_usage": 123299846400,
+                "id": 3835,
+                "latest_vault_rp": "2026-04-05T08:16:00Z",
+                "name": "rb-mediaman1.rb.atl.efscloud.net",
+                "service_id": "g2qz",
+                "type": "Cloud"
+            }
+        ],
+        "volumes": [
+            "C:\\"
+        ]
+    },
+    {
+        "agent_version": "2.43.1995",
+        "asio_endpoint_id": null,
+        "client_id": 56301,
+        "cloud_usage": 125457226176,
+        "current_health_status": {
+            "reason": null,
+            "status": "NORMAL",
+            "timestamp": "2025-09-15T03:41:38Z"
+        },
+        "d2c": true,
+        "device_details_page_url": "https://my.axcient.net/home/device/4125685",
+        "excluded_volumes": null,
+        "id": 4125685,
+        "ip_address": "10.9.250.4",
+        "is_password_protected": false,
+        "jobs": [
+            {
+                "health_status": "NORMAL",
+                "id": 8521214,
+                "latest_rp": "2026-04-05T08:16:00Z",
+                "name": "Cloud Backup Job",
+                "vault_id": 3835
+            }
+        ],
+        "latest_autoverify_details": {
+            "end_timestamp": "2026-03-31T17:55:46Z",
+            "id": "69cc0aa2845b7e97d7a5ccf8",
+            "is_healthy": true,
+            "rp": "2026-03-31T10:16:00Z",
+            "screenshot_thumbnail_url": "https://my.axcient.net/image/last_autoverify_thumbnail/376370666259632b777468716b4e7a6b706172686f4b39346261787569363156325a4152376a644233563542734c49685044663256304e5a5850526d45756d397147543074554f6c61435438594166477738673d",
+            "screenshot_url": "https://my.axcient.net/image/last_autoverify_screenshot/6636725a514672664461305354714e71713250525a653672377742317956336f76616a70455a644e686262617a51787a474d6530734f447a58524d35332f7837434664355557334259427456643949687857383d",
+            "start_timestamp": "2026-03-31T17:40:45Z",
+            "status": "success",
+            "timestamp": "2026-03-31T17:55:46Z"
+        },
+        "latest_cloud_rp": "2026-04-05T08:16:00Z",
+        "latest_local_rp": null,
+        "latest_vault_rp": null,
+        "local_cache_details": {
+            "enabled": false,
+            "last_successful_verification_timestamp": null,
+            "last_verification_timestamp": null,
+            "path": "",
+            "verification_status": null
+        },
+        "local_ps_id": "68c780adb4767b0277033075",
+        "local_total": null,
+        "local_usage": null,
+        "name": "msadc3.medstarambulance.com",
+        "os": {
+            "bits": 64,
+            "os_name": "Windows Server 2019 Standard (version 1809) - 64-bit",
+            "os_type": "WINDOWS"
+        },
+        "previous_health_status": {
+            "reason": "OFFSITE_NEVER_RUN",
+            "status": "WARNED",
+            "timestamp": null
+        },
+        "product": "X360RECOVER",
+        "service_id": null,
+        "thresholds": {
+            "cloud_rp_threshold": null,
+            "local_rp_threshold": null,
+            "protection_threshold": {
+                "enabled": true,
+                "overridden": null,
+                "value": 1440
+            },
+            "vault_rp_threshold": null
+        },
+        "type": "SERVER",
+        "vault_usage": null,
+        "vaults": [
+            {
+                "device_usage": 125457226176,
+                "id": 3835,
+                "latest_vault_rp": "2026-04-05T08:16:00Z",
+                "name": "rb-mediaman1.rb.atl.efscloud.net",
+                "service_id": "g2qz",
+                "type": "Cloud"
+            }
+        ],
+        "volumes": [
+            "C:\\",
+            "E:\\"
+        ]
+    },
+    {
+        "agent_version": "2.43.1995",
+        "asio_endpoint_id": null,
+        "client_id": 51573,
+        "cloud_usage": 255390814656,
+        "current_health_status": {
+            "reason": null,
+            "status": "NORMAL",
+            "timestamp": "2025-12-10T16:49:43Z"
+        },
+        "d2c": true,
+        "device_details_page_url": "https://my.axcient.net/home/device/4166728",
+        "excluded_volumes": null,
+        "id": 4166728,
+        "ip_address": "169.254.22.69",
+        "is_password_protected": false,
+        "jobs": [
+            {
+                "health_status": "NORMAL",
+                "id": 8573848,
+                "latest_rp": "2026-04-05T01:58:00Z",
+                "name": "Cloud Backup Job",
+                "vault_id": 3835
+            }
+        ],
+        "latest_autoverify_details": {
+            "end_timestamp": "2026-04-03T22:58:30Z",
+            "id": "69d046164969891cb607f09b",
+            "is_healthy": false,
+            "rp": "2026-04-03T05:58:00Z",
+            "screenshot_thumbnail_url": "https://my.axcient.net/image/last_autoverify_thumbnail/4e417a4d43705a37493849516f48505979764573344e656d4a415234594564757330362f71584b70502f726f394b2f705373343674765249536e6556345a4146574e546c4b665754566131766a5959775833553d",
+            "screenshot_url": "https://my.axcient.net/image/last_autoverify_screenshot/376f694b714d6a6166366756397a6d583136654f7731563167314d5763376e4e6b6169674e4c50706553674f513556536475576957452b75726d674f5130726c544559457076424663646e353635637a624c6b3d",
+            "start_timestamp": "2026-04-03T21:50:57Z",
+            "status": "success",
+            "timestamp": "2026-04-03T22:58:30Z"
+        },
+        "latest_cloud_rp": "2026-04-05T01:58:00Z",
+        "latest_local_rp": null,
+        "latest_vault_rp": null,
+        "local_cache_details": {
+            "enabled": false,
+            "last_successful_verification_timestamp": null,
+            "last_verification_timestamp": null,
+            "path": "",
+            "verification_status": null
+        },
+        "local_ps_id": "69273b662614562b99466ee9",
+        "local_total": null,
+        "local_usage": null,
+        "name": "D-BPX40C3",
+        "os": {
+            "bits": 64,
+            "os_name": "Windows 11 Professional (version 2009) - 64-bit",
+            "os_type": "WINDOWS"
+        },
+        "previous_health_status": {
+            "reason": "OFFSITE_STATUS",
+            "status": "TROUBLED",
+            "timestamp": null
+        },
+        "product": "X360RECOVER",
+        "service_id": null,
+        "thresholds": {
+            "cloud_rp_threshold": null,
+            "local_rp_threshold": null,
+            "protection_threshold": {
+                "enabled": true,
+                "overridden": null,
+                "value": 4320
+            },
+            "vault_rp_threshold": null
+        },
+        "type": "WORKSTATION",
+        "vault_usage": null,
+        "vaults": [
+            {
+                "device_usage": 255390814656,
+                "id": 3835,
+                "latest_vault_rp": "2026-04-05T01:58:00Z",
+                "name": "rb-mediaman1.rb.atl.efscloud.net",
+                "service_id": "g2qz",
+                "type": "Cloud"
+            }
+        ],
+        "volumes": [
+            "C:\\"
+        ]
+    },
+    {
+        "agent_version": "2.43.1995",
+        "asio_endpoint_id": null,
+        "client_id": 49540,
+        "cloud_usage": 341113881600,
+        "current_health_status": {
+            "reason": null,
+            "status": "NORMAL",
+            "timestamp": "2025-12-01T22:51:41Z"
+        },
+        "d2c": true,
+        "device_details_page_url": "https://my.axcient.net/home/device/4169242",
+        "excluded_volumes": null,
+        "id": 4169242,
+        "ip_address": "172.40.1.30",
+        "is_password_protected": false,
+        "jobs": [
+            {
+                "health_status": "NORMAL",
+                "id": 8576867,
+                "latest_rp": "2026-04-05T10:55:00Z",
+                "name": "Cloud Backup Job",
+                "vault_id": 3835
+            }
+        ],
+        "latest_autoverify_details": {
+            "end_timestamp": "2026-04-03T10:40:54Z",
+            "id": "69cf9936d517ec9e0c0ed152",
+            "is_healthy": true,
+            "rp": "2026-04-03T03:55:00Z",
+            "screenshot_thumbnail_url": "https://my.axcient.net/image/last_autoverify_thumbnail/6c484b3853533078717161477346774d776750694d44334541494f54466349596b576b2f5a756c324e623174624a3748466f2b7769694934774b6f6b546c67754b434f3931476b6e4b6843457549354b52416f3d",
+            "screenshot_url": "https://my.axcient.net/image/last_autoverify_screenshot/4e65314c495876733732666d4b6d4c415454716e39335744584552536d31705742724a58326e654c76625962446d303477364d6266546171716b5438654b454f57664468614a4c674f6f30797234574e4e79303d",
+            "start_timestamp": "2026-04-03T10:30:53Z",
+            "status": "success",
+            "timestamp": "2026-04-03T10:40:54Z"
+        },
+        "latest_cloud_rp": "2026-04-05T10:55:00Z",
+        "latest_local_rp": null,
+        "latest_vault_rp": null,
+        "local_cache_details": {
+            "enabled": false,
+            "last_successful_verification_timestamp": null,
+            "last_verification_timestamp": null,
+            "path": "",
+            "verification_status": null
+        },
+        "local_ps_id": "692df0b22614562b99466eea",
+        "local_total": null,
+        "local_usage": null,
+        "name": "nicerecorder.promed.org",
+        "os": {
+            "bits": 64,
+            "os_name": "Windows Server 2016 Standard (version 1607) - 64-bit",
+            "os_type": "WINDOWS"
+        },
+        "previous_health_status": {
+            "reason": "OFFSITE_NEVER_RUN",
+            "status": "WARNED",
+            "timestamp": null
+        },
+        "product": "X360RECOVER",
+        "service_id": null,
+        "thresholds": {
+            "cloud_rp_threshold": null,
+            "local_rp_threshold": null,
+            "protection_threshold": {
+                "enabled": true,
+                "overridden": null,
+                "value": 1440
+            },
+            "vault_rp_threshold": null
+        },
+        "type": "SERVER",
+        "vault_usage": null,
+        "vaults": [
+            {
+                "device_usage": 341113881600,
+                "id": 3835,
+                "latest_vault_rp": "2026-04-05T10:55:00Z",
+                "name": "rb-mediaman1.rb.atl.efscloud.net",
+                "service_id": "g2qz",
+                "type": "Cloud"
+            }
+        ],
+        "volumes": [
+            "C:\\",
+            "D:\\",
+            "F:\\"
+        ]
+    }
+]

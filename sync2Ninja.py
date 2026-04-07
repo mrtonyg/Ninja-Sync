@@ -1,112 +1,102 @@
-# Media Managed – Ninja-Sync
-# Version: 2.0.9
-# Author: Anthony George
+#!/usr/bin/env python3
+"""
+Huntress/Axcient to NinjaRMM Sync
+Version: 1.0.0
+Purpose: Main entry point for syncing Huntress and Axcient data to NinjaRMM custom fields
+Usage: python3 sync2Ninja.py
+Author: Anthony George
+Company: Media Managed
+Website: https://mediamanaged.com
+"""
+import time
 
-import os
-from ninja_sync.api.huntress_api import HuntressAPI
-from ninja_sync.api.axcient_api import AxcientAPI
-from ninja_sync.api.ninja_api import NinjaAPI
-from ninja_sync.core.logger import info, warn, error
-from ninja_sync.core.cache import load_cache, write_cache
-from ninja_sync.core import config
-from ninja_sync.core.html_builder import build_huntress_html, build_axcient_html
-from ninja_sync.core.matching import match_by_name
+from mm_sync.config import LOG_PATH
+from mm_sync.utils import log
 
-def preflight(huntress, ninja, axcient):
-    info("Running preflight checks...")
-
-    huntress_ok = False
-    ninja_ok = False
-    axcient_ok = False
-
-    # Huntress
-    agents = huntress.get_agents()
-    if not agents:
-        warn("Huntress preflight failed (soft)")
-    else:
-        info("Huntress preflight OK")
-        huntress_ok = True
-
-    # Ninja
-    if not ninja.authenticate():
-        warn("Ninja preflight failed (soft)")
-    else:
-        info("Ninja preflight OK")
-        ninja_ok = True
-
-    # Axcient
-    devices = axcient.get_devices()
-    if not devices:
-        warn("Axcient preflight failed (soft)")
-    else:
-        info("Axcient preflight OK")
-        axcient_ok = True
-
-    # Evaluate overall preflight status
-    failed = []
-    if not huntress_ok:
-        failed.append("Huntress")
-    if not ninja_ok:
-        failed.append("Ninja")
-    if not axcient_ok:
-        failed.append("Axcient")
-
-    if failed:
-        warn(f"Preflight warnings: {', '.join(failed)} (soft fail, continuing...)")
-    else:
-        info("Preflight completed successfully.")
+from mm_sync.huntress import pull_huntress, enrich_huntress, html_huntress
+from mm_sync.axcient import pull_axcient, html_axcient
+from mm_sync.ninja_api import (
+    ninja_get_all_devices,
+    ninja_update_field
+)
+from mm_sync.matching import (
+    build_device_maps,
+    match_device
+)
 
 
 def main():
-    info("[START] sync2Ninja 2.0.9")
+    log("[START] Sync2Ninja — Huntress + Axcient → Ninja")
 
-    huntress = HuntressAPI(config)
-    ninja = NinjaAPI()
-    axcient = AxcientAPI()
+    # ========================================================
+    # 1. Huntress
+    # ========================================================
+    agents, orgs = pull_huntress()
+    agents = enrich_huntress(agents, orgs)
 
-    preflight(huntress, ninja, axcient)
+    # ========================================================
+    # 2. Ninja Device Inventory
+    # ========================================================
+    ninja_devices = ninja_get_all_devices()
+    display_map, dns_map, system_map = build_device_maps(ninja_devices)
 
-    # Huntress
-    h_agents = huntress.get_agents()
-    h_orgs = huntress.get_orgs()
-    org_map = {str(o["id"]): o.get("name","Unknown") for o in h_orgs}
+    # ========================================================
+    # 3. Axcient x360Recover
+    # ========================================================
+    axcient_devices = pull_axcient()
 
-    write_cache(config.HUNTRESS_CACHE_AGENTS, h_agents)
-    write_cache(config.HUNTRESS_CACHE_ORGS, h_orgs)
-
-    # Axcient
-    ax_list = axcient.get_devices()
-    write_cache(config.AXCIENT_CACHE, ax_list)
-
-    # Ninja devices
-    if not ninja.authenticate():
-        error("Cannot authenticate Ninja. Exiting.")
-        return
-
-    ninja_devices = ninja.get_devices()
-    write_cache(config.NINJA_CACHE_DEVICES, ninja_devices)
-
-    # PROCESS HUNTRESS
-    for agent in h_agents:
-        match = match_by_name(ninja_devices, agent.get("hostname"))
-        if not match:
-            warn(f"No Ninja match for Huntress device {agent.get('hostname')}")
+    # ========================================================
+    # 4. HUNTRESS → huntressStatus
+    # ========================================================
+    for agent in agents:
+        name = agent.get("hostname")
+        if not name:
             continue
 
-        html, _ = build_huntress_html(agent, org_map)
-        ninja.update_custom_field(match["id"], config.CUSTOM_FIELD_HUNTRESS, html)
-
-    # PROCESS AXCIENT
-    for dev in ax_list:
-        match = match_by_name(ninja_devices, dev.get("name"))
-        if not match:
-            warn(f"No Ninja match for Axcient device {dev.get('name')}")
+        ninja_dev = match_device(name, display_map, dns_map, system_map)
+        if not ninja_dev:
             continue
 
-        html, _ = build_axcient_html(dev)
-        ninja.update_custom_field(match["id"], config.CUSTOM_FIELD_AXCIENT, html)
+        nid = ninja_dev["id"]
+        ninja_name = (
+            ninja_dev.get("hostname") or
+            ninja_dev.get("displayName") or
+            ninja_dev.get("dnsName") or
+            ninja_dev.get("systemName") or
+            "Unknown"
+        )
 
-    info("[DONE] Sync completed.")
+        html = html_huntress(agent)
+        ninja_update_field(nid, "huntressStatus", html, name, ninja_name)
+        time.sleep(0.1)
+
+    # ========================================================
+    # 5. AXCIENT → backupStatus
+    # ========================================================
+    for adev in axcient_devices:
+        name = adev.get("name")
+        if not name:
+            continue
+
+        ninja_dev = match_device(name, display_map, dns_map, system_map)
+        if not ninja_dev:
+            continue
+
+        nid = ninja_dev["id"]
+        ninja_name = (
+            ninja_dev.get("hostname") or
+            ninja_dev.get("displayName") or
+            ninja_dev.get("dnsName") or
+            ninja_dev.get("systemName") or
+            "Unknown"
+        )
+
+        html = html_axcient(adev)
+        ninja_update_field(nid, "backupStatus", html, name, ninja_name)
+        time.sleep(0.1)
+
+    log("[DONE] Sync Completed")
+
 
 if __name__ == "__main__":
     main()

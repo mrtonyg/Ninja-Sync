@@ -1,215 +1,97 @@
-# MM_syncNinja
-Unified Huntress + Axcient → NinjaOne Device Sync Engine  
-Author: Anthony George (Media Managed)
+# Huntress/Axcient/NinjaRMM Sync Project
+
+**Version:** 1.0.0  
+**Author:** Anthony George  
+**Company:** Media Managed  
+**Website:** https://mediamanaged.com
 
 ## Overview
-`MM_syncNinja` is a modular Python-based synchronization system designed to pull
-endpoint details from:
 
-- **Huntress** (EDR + agent status)
-- **Axcient x360Recover** (backup & AutoVerify status)
-- **NinjaOne v2 API** (device inventory + custom fields)
-
-It resolves device names across different systems, generates WYSIWYG-safe HTML
-summaries, and updates two NinjaOne custom fields:
-
-- `huntressStatus`
-- `backupStatus`
-
-The project uses a full modular architecture with caching, OAuth2, pagination,
-logging, error handling, and selective cache clearing.
-
-MM_syncNinja/
-│
-├── sync2Ninja.py # Main orchestrator
-└── mm_sync/
-├── config.py # Cache paths, TTLs, log location
-├── secrets.py # API keys (placeholders)
-├── utils.py # Logging, JSON helpers, cache clearing
-├── huntress.py # Huntress integration + HTML builder
-├── axcient.py # Axcient integration + HTML builder
-├── ninja_api.py # NinjaOne OAuth2, devices, custom fields
-├── matching.py # Device matching logic
-└── init.py
-
-
----
-
-## Features
-
-### ✔ Huntress Integration
-- Pulls `/agents` and `/organizations`  
-- Pagination-aware  
-- Caches for 30 minutes  
-- Maps `organization_id` → org name  
-- WYSIWYG-safe summary HTML  
-- Includes Defender status, firewall state, EDR version, updated_at, and more  
-
-### ✔ Axcient Integration
-- Uses `/device` (singular endpoint)
-- Correct pagination (`limit`, `offset`)
-- Handles raw list or wrapped object responses
-- Includes:
-  - AutoVerify details (status + timestamp)
-  - Latest Cloud Recovery Point
-  - Current Health Status (inline timestamp)
-  - Agent Version
-- WYSIWYG-safe HTML summary  
-
-### ✔ NinjaOne Integration
-- Full OAuth2 “client credentials” flow
-- Token caching with expiration tracking
-- Pulls devices via v2 API (`/v2/devices`)
-- Updates WYSIWYG custom fields:
-  - `huntressStatus`
-  - `backupStatus`
-- Resilient error handling & detailed logging
-
-### ✔ Device Matching
-Matches devices across systems using:
-
-1. `displayName`
-2. `dnsName`
-3. `systemName`
-4. Stripped hostname (FQDN → hostname)
-
-### ✔ Selective Cache Clearing
-Available command-line flags:
-
---clear-axcient
---clear-ninja
---clear-all
---clear-cache # interactive menu
-
-
-### ✔ Logging
-Logs to:
-
-sync2Ninja.log
-
-
-Includes timestamps, API errors, update results, and cache events.
-
----
-
-## Installation
-
-### 1. Clone the project
-
-
-git clone https://github.com/YOUR_REPO/MM_syncNinja.git
-
-cd MM_syncNinja
-
-
-### 2. Install dependencies
-Requires Python 3.8+.
-
-Install `requests`:
-
-
-pip3 install requests
-
-
-### 3. Edit the API secrets
-Open:
-
-
-mm_sync/secrets.py
-
-
-Replace placeholders:
-```python
-HUNTRESS_KEY = "YOUR_HUNTRESS_KEY"
-HUNTRESS_SECRET = "YOUR_HUNTRESS_SECRET"
-
-AXCIENT_API_KEY = "YOUR_AXCIENT_API_KEY"
-
-NINJA_CLIENT_ID = "YOUR_NINJA_CLIENT_ID"
-NINJA_CLIENT_SECRET = "YOUR_NINJA_CLIENT_SECRET"
-
-Usage
-Run normally:
-./sync2Ninja.py
-
-Clear all caches:
-./sync2Ninja.py --clear-all
-
-Clear one cache:
-./sync2Ninja.py --clear-huntress
-./sync2Ninja.py --clear-axcient
-./sync2Ninja.py --clear-ninja
-
-Interactive cache clearing:
-./sync2Ninja.py --clear-cache
-
-Cron Example
-
-Update every 30 minutes:
-
-*/30 * * * * /usr/bin/python3 /root/MM_syncNinja/sync2Ninja.py >> /root/MM_syncNinja/cron.log 2>&1
-
-Custom Fields Required in NinjaOne
-
-Create these rich text custom fields:
-
-huntressStatus
-backupStatus
-
-
-Type:
-
-“This text field allows for text with bold, italic, underline, hyperlinks, etc.”
-
-Troubleshooting
-HTML formatting looks wrong
-
-NinjaOne sanitizes aggressively.
-This project uses only:
-
-<p>
-
-<b>
-
-<u>
-
-text and emojis
-
-These remain intact.
-
-Device not matched
-
-Ensure names match:
-
-Huntress hostname
-
-Axcient name
-
-NinjaOne displayName, dnsName, systemName
-
-Axcient paging issues
-
-Ensure:
-
-limit ≤ 200
-
-offset increments by limit
-
-This project handles that automatically.
-
-Future Enhancements
-
-Slack/Teams alerting
-
-Backup RP age thresholds
-
-Automatic indepth health scoring
-
-Huntress incident count integration
-
-NinjaOne UI “force refresh” toggle
-
-License
-
-Internal use only — Media Managed.
-Do not distribute externally.
+This project synchronizes data between Huntress security monitoring, Axcient x360Recover backup platform, and NinjaRMM endpoint management system. It pulls agent/device information from Huntress and Axcient, matches them to devices in NinjaRMM, and updates custom fields with status information.
+
+## Project Structure
+
+```
+sync_project_clean/
+├── sync2Ninja.py              # Main entry point
+├── mm_sync/                   # Core module
+│   ├── __init__.py
+│   ├── config.py              # Configuration settings
+│   ├── secrets.py.template    # Template for API credentials
+│   ├── utils.py               # Utility functions (logging)
+│   ├── huntress.py            # Huntress API integration
+│   ├── axcient.py             # Axcient x360Recover API integration
+│   ├── ninja_api.py           # NinjaRMM API integration
+│   ├── matching.py            # Device matching logic
+│   ├── huntress_cache/        # Cached Huntress data
+│   ├── axcient_cache/         # Cached Axcient data
+│   └── ninja_cache/           # Cached NinjaRMM data
+└── README.md                  # This file
+```
+
+## Setup
+
+1. **Configure Secrets:**
+   ```bash
+   cd mm_sync
+   cp secrets.py.template secrets.py
+   # Edit secrets.py with your actual API credentials
+   ```
+
+2. **Install Dependencies:**
+   ```bash
+   pip install requests
+   # Add any other dependencies as needed
+   ```
+
+3. **Run the Sync:**
+   ```bash
+   python3 sync2Ninja.py
+   ```
+
+## How It Works
+
+1. **Huntress Integration:**
+   - Pulls agent data and organization information from Huntress
+   - Enriches agent data with organization details
+   - Generates HTML status for each agent
+
+2. **Axcient Integration:**
+   - Pulls device/backup information from x360Recover
+   - Generates HTML status for each backup device
+
+3. **Device Matching:**
+   - Builds maps of NinjaRMM devices by display name, DNS name, and system name
+   - Matches Huntress agents and Axcient devices to NinjaRMM devices
+
+4. **NinjaRMM Updates:**
+   - Updates `huntressStatus` custom field with Huntress agent information
+   - Updates `backupStatus` custom field with Axcient backup information
+
+## Cache Files
+
+The project maintains cache files in JSON format to reduce API calls:
+- `huntress_cache/agents.json` - Huntress agent data
+- `huntress_cache/orgs.json` - Huntress organization data
+- `axcient_cache/devices.json` - Axcient device data
+- `ninja_cache/devices.json` - NinjaRMM device inventory
+
+Timestamp files track when data was last refreshed.
+
+## Logging
+
+Logs are written to the path specified in `config.py` (typically `sync.log`).
+
+## Security Notes
+
+- **Never commit `secrets.py`** to version control
+- Add `secrets.py` to `.gitignore`
+- Rotate API credentials regularly
+- Use read-only credentials where possible
+
+## Support
+
+For issues or questions, contact:
+- Anthony George
+- Media Managed
+- https://mediamanaged.com
