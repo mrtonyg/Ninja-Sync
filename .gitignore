@@ -1,0 +1,64 @@
+# Secrets Configuration Template
+# Version: 1.0.0
+# Purpose: Git ignore file for sync project
+# Author: Anthony George
+# Company: Media Managed
+# Website: https://mediamanaged.com
+
+# Secrets and credentials
+secrets.py
+*.pem
+*.key
+*.crt
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual environments
+venv/
+ENV/
+env/
+.venv
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+sync.log
+
+# Cache (optional - you may want to track these)
+# *_cache/*.json
+# *_cache/timestamp.json
+
+# Temporary files
+*.tmp
+*.bak
+*.old
